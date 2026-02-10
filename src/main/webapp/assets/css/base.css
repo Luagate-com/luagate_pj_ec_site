@@ -1,0 +1,27 @@
+:root {
+  --bg-main: #fdfdfa;
+  --border-main: #dcdcd9;
+  --text-main: #363635;
+  --text-sub: #727270;
+  --text-placeholder: #a2a29f;
+  --accent: #05b45b;
+  --accent-text: #037f40;
+  --bg-sub: #f5f4ed;
+  --bg-selected: #e8e7e2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans CJK JP", sans-serif;
+  color: var(--text-main);
+  background: var(--bg-main);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
