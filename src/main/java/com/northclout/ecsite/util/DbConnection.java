@@ -5,6 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class DbConnection {
+  static {
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+    } catch (ClassNotFoundException e) {
+      throw new IllegalStateException("MySQL driver not found. Add mysql-connector-j to classpath.", e);
+    }
+  }
+
   private DbConnection() {
   }
 
