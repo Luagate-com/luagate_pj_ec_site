@@ -1,0 +1,169 @@
+.page {
+  background: var(--bg-main);
+}
+
+.container {
+  padding: 64px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.crumbs {
+  font-size: 12px;
+  color: var(--text-sub);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.crumbs .divider {
+  color: #a0968a;
+}
+
+.detail {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.image {
+  width: 300px;
+  height: 300px;
+  border-radius: 16px;
+  background: var(--bg-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.name {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.price {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+}
+
+.desc {
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counter button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+}
+
+.counter .value {
+  font-family: "Inter", sans-serif;
+  font-size: 17px;
+  color: var(--text-main);
+}
+
+.counter .value-input {
+  width: 48px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  color: var(--text-main);
+  background: var(--bg-main);
+}
+
+.counter .value-input::-webkit-outer-spin-button,
+.counter .value-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.button-primary {
+  background: var(--accent);
+  color: white;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button-secondary {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--bg-sub);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 48px 64px;
+  }
+  .detail {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+  .detail {
+    flex-direction: column;
+  }
+  .image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
