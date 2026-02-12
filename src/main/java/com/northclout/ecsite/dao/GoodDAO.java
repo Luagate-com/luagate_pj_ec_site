@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class GoodDAO {
   private static final String SELECT_ALL =
@@ -53,6 +54,29 @@ public class GoodDAO {
       }
     } catch (SQLException e) {
       throw new IllegalStateException("Failed to load good by id", e);
+    }
+  }
+
+  public List<GoodDTO> findByIds(List<Long> ids) {
+    if (ids == null || ids.isEmpty()) {
+      return new ArrayList<>();
+    }
+    StringJoiner joiner = new StringJoiner(",");
+    for (int i = 0; i < ids.size(); i++) {
+      joiner.add("?");
+    }
+    String sql = "SELECT id, code, name, description, price, category, image_url FROM goods WHERE id IN ("
+        + joiner + ") ORDER BY id";
+    try (Connection conn = DbConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+      for (int i = 0; i < ids.size(); i++) {
+        stmt.setLong(i + 1, ids.get(i));
+      }
+      try (ResultSet rs = stmt.executeQuery()) {
+        return mapList(rs);
+      }
+    } catch (SQLException e) {
+      throw new IllegalStateException("Failed to load goods by ids", e);
     }
   }
 
