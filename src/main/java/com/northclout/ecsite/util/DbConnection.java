@@ -8,8 +8,12 @@ public final class DbConnection {
   static {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
+      // 明示的に登録して、DriverManager が確実に検出できるようにする。
+      java.sql.DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
     } catch (ClassNotFoundException e) {
       throw new IllegalStateException("MySQL driver not found. Add mysql-connector-j to classpath.", e);
+    } catch (java.sql.SQLException e) {
+      throw new IllegalStateException("Failed to register MySQL driver.", e);
     }
   }
 
