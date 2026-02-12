@@ -3,6 +3,7 @@ package com.northclout.ecsite.dto;
 public class UserDTO {
   private long id;
   private String email;
+  private String passwordHash;
   private String lastName;
   private String firstName;
   private String address;
@@ -26,6 +27,14 @@ public class UserDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
   }
 
   public String getLastName() {
