@@ -9,12 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GoodDAO {
   private static final String SELECT_ALL =
       "SELECT id, code, name, description, price, category, image_url FROM goods ORDER BY id";
   private static final String SELECT_BY_CATEGORY =
       "SELECT id, code, name, description, price, category, image_url FROM goods WHERE category = ? ORDER BY id";
+  private static final String SELECT_BY_ID =
+      "SELECT id, code, name, description, price, category, image_url FROM goods WHERE id = ?";
 
   public List<GoodDTO> findAll() {
     try (Connection conn = DbConnection.getConnection();
@@ -38,19 +41,38 @@ public class GoodDAO {
     }
   }
 
+  public Optional<GoodDTO> findById(long id) {
+    try (Connection conn = DbConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID)) {
+      stmt.setLong(1, id);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return Optional.of(mapRow(rs));
+        }
+        return Optional.empty();
+      }
+    } catch (SQLException e) {
+      throw new IllegalStateException("Failed to load good by id", e);
+    }
+  }
+
   private List<GoodDTO> mapList(ResultSet rs) throws SQLException {
     List<GoodDTO> goods = new ArrayList<>();
     while (rs.next()) {
-      GoodDTO dto = new GoodDTO();
-      dto.setId(rs.getLong("id"));
-      dto.setCode(rs.getString("code"));
-      dto.setName(rs.getString("name"));
-      dto.setDescription(rs.getString("description"));
-      dto.setPrice(rs.getInt("price"));
-      dto.setCategory(rs.getString("category"));
-      dto.setImageUrl(rs.getString("image_url"));
-      goods.add(dto);
+      goods.add(mapRow(rs));
     }
     return goods;
+  }
+
+  private GoodDTO mapRow(ResultSet rs) throws SQLException {
+    GoodDTO dto = new GoodDTO();
+    dto.setId(rs.getLong("id"));
+    dto.setCode(rs.getString("code"));
+    dto.setName(rs.getString("name"));
+    dto.setDescription(rs.getString("description"));
+    dto.setPrice(rs.getInt("price"));
+    dto.setCategory(rs.getString("category"));
+    dto.setImageUrl(rs.getString("image_url"));
+    return dto;
   }
 }
