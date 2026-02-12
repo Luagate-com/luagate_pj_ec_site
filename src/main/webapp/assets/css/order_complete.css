@@ -1,0 +1,79 @@
+.page {
+  background: var(--bg-main);
+}
+
+.container {
+  padding: 64px 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.illustration {
+  width: 110px;
+  height: 161px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.order-number {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+.message {
+  font-size: 13px;
+  color: var(--text-main);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  width: 300px;
+}
+
+.button-secondary {
+  flex: 1;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--bg-sub);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-text);
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+}
+
+.button-primary {
+  flex: 1;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}
