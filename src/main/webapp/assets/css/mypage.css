@@ -1,0 +1,132 @@
+.page {
+  background: var(--bg-main);
+}
+
+.container {
+  padding: 64px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.columns {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.card {
+  border: 1px solid var(--border-main);
+  border-radius: 16px;
+  background: var(--bg-main);
+}
+
+.card-head {
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--text-main);
+}
+
+.row .label {
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.actions {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-secondary {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--bg-sub);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+.settings {
+  width: 360px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.settings .muted {
+  color: var(--text-sub);
+}
+
+.edit-form {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.edit-form .full {
+  grid-column: 1 / -1;
+}
+
+.edit-form input {
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid var(--border-main);
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.error {
+  border: 1px solid #f47365;
+  background: rgba(241, 80, 37, 0.1);
+  color: #f47365;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 48px 64px;
+  }
+  .columns {
+    flex-direction: column;
+  }
+  .settings {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+  .edit-form {
+    grid-template-columns: 1fr;
+  }
+}
