@@ -25,3 +25,12 @@ img {
   max-width: 100%;
   display: block;
 }
+
+.logo,
+.logo:link,
+.logo:visited,
+.logo:hover,
+.logo:active {
+  color: inherit;
+  text-decoration: none;
+}

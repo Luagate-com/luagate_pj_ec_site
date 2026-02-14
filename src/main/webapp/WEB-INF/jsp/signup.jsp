@@ -36,11 +36,6 @@
       </div>
 
       <div class="field">
-        <label class="label" for="passwordConfirm">パスワード（確認）</label>
-        <input class="input" id="passwordConfirm" name="passwordConfirm" type="password" placeholder="・・・・・・・・">
-      </div>
-
-      <div class="field">
         <label class="label" for="postal">郵便番号</label>
         <input class="input" id="postal" name="postal" type="text" value="${param.postal}" placeholder="123-4567">
       </div>
@@ -61,8 +56,9 @@
       </div>
 
       <label class="checkbox">
-        <input type="checkbox" name="agree" value="1" ${param.agree == '1' ? 'checked' : ''}>
-        利用規約に同意する
+        <input class="checkbox-input" type="checkbox" name="agree" value="1" ${param.agree == '1' ? 'checked' : ''}>
+        <span class="checkbox-box" aria-hidden="true"></span>
+        <span class="checkbox-text">利用規約に同意する</span>
       </label>
 
       <div class="actions">

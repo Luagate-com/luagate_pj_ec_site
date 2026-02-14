@@ -3,7 +3,9 @@
 }
 
 .container {
-  padding: 64px 200px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 64px 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -53,7 +55,6 @@
 }
 
 .actions {
-  padding: 16px;
   display: flex;
   justify-content: flex-end;
 }
@@ -83,22 +84,29 @@
 }
 
 .edit-form {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.edit-form .full {
-  grid-column: 1 / -1;
+  margin-top: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .edit-form input {
-  height: 38px;
-  border-radius: 8px;
-  border: 1px solid var(--border-main);
-  padding: 0 12px;
+  display: none;
+}
+
+.edit-form .full {
+  width: auto;
+}
+
+.settings form {
+  margin: 0;
+}
+
+.settings-link {
+  background: none;
+  border: none;
+  padding: 0;
   font-size: 13px;
+  cursor: pointer;
 }
 
 .error {
@@ -112,7 +120,8 @@
 
 @media (max-width: 1200px) {
   .container {
-    padding: 48px 64px;
+    max-width: 100%;
+    padding: 48px 32px;
   }
   .columns {
     flex-direction: column;

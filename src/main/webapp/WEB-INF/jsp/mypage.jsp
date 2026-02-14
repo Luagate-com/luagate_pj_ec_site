@@ -57,9 +57,8 @@
         <div class="card-head" style="padding:0;">設定</div>
         <div>パスワード変更</div>
         <div>支払い方法</div>
-        <div class="muted">ログアウト</div>
-        <form action="${pageContext.request.contextPath}/logout" method="post" style="margin-top:8px;">
-          <button class="button-secondary" type="submit">ログアウト</button>
+        <form action="${pageContext.request.contextPath}/logout" method="post">
+          <button class="settings-link muted" type="submit">ログアウト</button>
         </form>
       </div>
     </div>

@@ -36,7 +36,7 @@
               <img src="${pageContext.request.contextPath}${good.imageUrl}" alt="">
             </c:when>
             <c:otherwise>
-              <img src="${pageContext.request.contextPath}/assets/images/goods/placeholder.svg" alt="">
+              <img src="${pageContext.request.contextPath}/assets/images/goods/${good.name}.jpg" alt="">
             </c:otherwise>
           </c:choose>
           <div class="card-body">

@@ -48,15 +48,8 @@
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="goodId" value="${item.good.id}">
                     <button type="button" data-action="minus" aria-label="減らす">-</button>
-                    <input type="number" name="quantity" value="${item.quantity}" min="1" max="99">
+                    <input class="count" type="number" name="quantity" value="${item.quantity}" min="1" max="99" readonly>
                     <button type="button" data-action="plus" aria-label="増やす">+</button>
-                  </form>
-                </div>
-                <div class="actions">
-                  <form action="${pageContext.request.contextPath}/cart" method="post">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="goodId" value="${item.good.id}">
-                    <button class="action-link" type="submit">削除</button>
                   </form>
                 </div>
               </div>
