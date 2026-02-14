@@ -71,10 +71,15 @@
   color: var(--text-sub);
 }
 
+.item-subtotal {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
 .counter {
   display: inline-flex;
   align-items: center;
-  gap: 0;
+  gap: 8px;
 }
 
 .counter button {
@@ -98,7 +103,6 @@
   font-family: "Inter", sans-serif;
   font-size: 17px;
   color: var(--text-main);
-  margin: 0 12px;
   padding: 0;
   appearance: textfield;
 }
@@ -145,7 +149,9 @@
 .summary-action {
   padding: 16px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
 
 .button-primary {
@@ -158,6 +164,12 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.continue-link {
+  font-size: 12px;
+  color: var(--text-sub);
+  text-decoration: underline;
 }
 
 .error {
@@ -190,4 +202,20 @@
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-link {
+  font-size: 12px;
+  color: var(--text-sub);
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }

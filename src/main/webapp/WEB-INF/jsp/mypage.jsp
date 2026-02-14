@@ -38,16 +38,39 @@
 
           <form class="edit-form" action="${pageContext.request.contextPath}/mypage" method="post">
             <input type="hidden" name="_method" value="PUT">
-            <input type="text" name="lastName" value="${user.lastName}" placeholder="姓">
-            <input type="text" name="firstName" value="${user.firstName}" placeholder="名">
-            <input class="full" type="text" name="address" value="${user.address}" placeholder="住所">
-            <input type="text" name="cardBrand" value="${user.cardBrand}" placeholder="カードブランド">
-            <input type="text" name="cardLast4" value="${user.cardNumberLast4}" placeholder="カード下4桁">
-            <input type="text" name="cardExpMonth" value="${user.cardExpMonth}" placeholder="有効期限(月)">
-            <input type="text" name="cardExpYear" value="${user.cardExpYear}" placeholder="有効期限(年)">
-            <input class="full" type="text" name="cardName" value="${user.cardName}" placeholder="名義">
-            <div class="actions full">
-              <button class="button-secondary" type="submit">編集する</button>
+            <div class="field">
+              <label class="label">氏名</label>
+              <div class="name-fields">
+                <input class="input" type="text" name="lastName" value="${user.lastName}" placeholder="姓">
+                <input class="input" type="text" name="firstName" value="${user.firstName}" placeholder="名">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">住所</label>
+              <input class="input" type="text" name="address" value="${user.address}" placeholder="住所">
+            </div>
+            <div class="field">
+              <label class="label">カード名義</label>
+              <input class="input" type="text" name="cardName" value="${user.cardName}" placeholder="名義">
+            </div>
+            <div class="field">
+              <label class="label">カード番号（下4桁）</label>
+              <input class="input" type="text" name="cardLast4" value="${user.cardNumberLast4}" placeholder="0000">
+            </div>
+            <div class="field">
+              <label class="label">有効期限（月）</label>
+              <input class="input" type="text" name="cardExpMonth" value="${user.cardExpMonth}" placeholder="12">
+            </div>
+            <div class="field">
+              <label class="label">有効期限（年）</label>
+              <input class="input" type="text" name="cardExpYear" value="${user.cardExpYear}" placeholder="30">
+            </div>
+            <div class="field">
+              <label class="label">カードブランド</label>
+              <input class="input" type="text" name="cardBrand" value="${user.cardBrand}" placeholder="VISA">
+            </div>
+            <div class="actions">
+              <button class="button-secondary" type="submit">更新</button>
             </div>
           </form>
         </div>
@@ -55,11 +78,9 @@
 
       <div class="card settings">
         <div class="card-head" style="padding:0;">設定</div>
-        <div>パスワード変更</div>
+        <a class="settings-link" href="${pageContext.request.contextPath}/mypage/password">パスワード変更</a>
         <div>支払い方法</div>
-        <form action="${pageContext.request.contextPath}/logout" method="post">
-          <button class="settings-link muted" type="submit">ログアウト</button>
-        </form>
+        <a class="settings-link muted" href="${pageContext.request.contextPath}/logout">ログアウト</a>
       </div>
     </div>
   </main>
