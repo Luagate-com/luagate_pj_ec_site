@@ -24,21 +24,19 @@ public class SignupServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String name = req.getParameter("name");
+    String lastName = req.getParameter("lastName");
+    String firstName = req.getParameter("firstName");
     String email = req.getParameter("email");
     String password = req.getParameter("password");
-    String postal = req.getParameter("postal");
-    String prefecture = req.getParameter("prefecture");
-    String city = req.getParameter("city");
-    String building = req.getParameter("building");
+    String passwordConfirm = req.getParameter("passwordConfirm");
     String agree = req.getParameter("agree");
 
-    if (ValidationUtil.isBlank(name)
+    if (ValidationUtil.isBlank(lastName)
+        || ValidationUtil.isBlank(firstName)
         || !ValidationUtil.isEmail(email)
         || ValidationUtil.isBlank(password)
-        || ValidationUtil.isBlank(postal)
-        || ValidationUtil.isBlank(prefecture)
-        || ValidationUtil.isBlank(city)
+        || ValidationUtil.isBlank(passwordConfirm)
+        || !password.equals(passwordConfirm)
         || agree == null) {
       req.setAttribute("signupError", "入力内容を確認してください。");
       req.getRequestDispatcher("/WEB-INF/jsp/signup.jsp").forward(req, resp);
@@ -53,20 +51,12 @@ public class SignupServlet extends HttpServlet {
       return;
     }
 
-    String[] nameParts = splitName(name);
-    String address = String.join(" ",
-        "〒" + postal,
-        prefecture,
-        city,
-        building == null ? "" : building
-    ).trim();
-
     UserDTO user = new UserDTO();
     user.setEmail(email);
     user.setPasswordHash(PasswordUtil.hash(password));
-    user.setLastName(nameParts[0]);
-    user.setFirstName(nameParts[1]);
-    user.setAddress(address);
+    user.setLastName(lastName.trim());
+    user.setFirstName(firstName.trim());
+    user.setAddress(null);
 
     long userId = dao.insertUser(user);
 
@@ -75,15 +65,4 @@ public class SignupServlet extends HttpServlet {
     resp.sendRedirect(req.getContextPath() + "/goods");
   }
 
-  // 氏名が「姓 名」形式でない場合は、姓のみ保存し名は空にする。
-  private String[] splitName(String name) {
-    String trimmed = name.trim();
-    int spaceIndex = trimmed.indexOf(' ');
-    if (spaceIndex < 0) {
-      return new String[]{trimmed, ""};
-    }
-    String last = trimmed.substring(0, spaceIndex).trim();
-    String first = trimmed.substring(spaceIndex + 1).trim();
-    return new String[]{last, first};
-  }
 }

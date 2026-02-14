@@ -20,12 +20,15 @@ public class UserDAO {
           + "card_number_last4, card_brand, card_exp_month, card_exp_year, card_name "
           + "FROM users WHERE email = ?";
   private static final String INSERT_USER =
-      "INSERT INTO users (email, password_hash, last_name, first_name, address, created_at, updated_at) "
-          + "VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+      "INSERT INTO users (email, password_hash, last_name, first_name, address, "
+          + "card_number_last4, card_brand, card_exp_month, card_exp_year, card_name, created_at, updated_at) "
+          + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
   private static final String UPDATE_USER =
       "UPDATE users SET last_name = ?, first_name = ?, address = ?, "
           + "card_number_last4 = ?, card_brand = ?, card_exp_month = ?, card_exp_year = ?, card_name = ?, "
           + "updated_at = NOW() WHERE id = ?";
+  private static final String UPDATE_PASSWORD =
+      "UPDATE users SET password_hash = ?, updated_at = NOW() WHERE id = ?";
 
   public Optional<UserDTO> findById(long id) {
     try (Connection conn = DbConnection.getConnection();
@@ -65,6 +68,19 @@ public class UserDAO {
       stmt.setString(3, user.getLastName());
       stmt.setString(4, user.getFirstName());
       stmt.setString(5, user.getAddress());
+      stmt.setString(6, user.getCardNumberLast4());
+      stmt.setString(7, user.getCardBrand());
+      if (user.getCardExpMonth() == null) {
+        stmt.setNull(8, java.sql.Types.TINYINT);
+      } else {
+        stmt.setInt(8, user.getCardExpMonth());
+      }
+      if (user.getCardExpYear() == null) {
+        stmt.setNull(9, java.sql.Types.SMALLINT);
+      } else {
+        stmt.setInt(9, user.getCardExpYear());
+      }
+      stmt.setString(10, user.getCardName());
       stmt.executeUpdate();
       try (var rs = stmt.getGeneratedKeys()) {
         if (rs.next()) {
@@ -100,6 +116,17 @@ public class UserDAO {
       return stmt.executeUpdate();
     } catch (SQLException e) {
       throw new IllegalStateException("Failed to update user", e);
+    }
+  }
+
+  public int updatePassword(long userId, String passwordHash) {
+    try (Connection conn = DbConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(UPDATE_PASSWORD)) {
+      stmt.setString(1, passwordHash);
+      stmt.setLong(2, userId);
+      return stmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new IllegalStateException("Failed to update password", e);
     }
   }
 
