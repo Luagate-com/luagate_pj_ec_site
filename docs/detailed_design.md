@@ -144,7 +144,7 @@
 * GoodListServlet：categoryの検証→DAOで一覧取得→JSPへ  
 * GoodDetailServlet：idの検証→存在チェック→JSPへ（無ければ404方針へ）  
 * CartAddServlet：数量検証→セッションカートへ追加→redirect:/cart  
-* CartUpdateServlet：数量検証→セッションカート更新→redirect:/cart  
+* CartUpdateServlet：数量検証→セッションカート更新→redirect:/cart（更新ボタンは設けず、数量変更時に反映）  
 * CartRemoveServlet：セッションカートから削除→redirect:/cart  
 * OrderCompleteServlet：session.userId取得（未ログインなら/loginへredirect）→カート取得→OrderService呼出（userId付き）→成功/失敗で遷移  
 * RegiViewServlet：userId確認→cart取得→goods取得→user取得→regi.jspへ
@@ -403,8 +403,8 @@
   * email：必須、形式、重複不可  
   * password：必須、確認一致  
   * 氏名：必須  
-  * 住所：任意（基本設計のとおりなら）  
-  * カード：保持する項目だけ（下4桁/ブランド/期限/名義）  
+  * 住所：なし  
+  * カード：なし  
 * マイページ  
   * 氏名/住所：任意  
   * カード情報：任意（保持する範囲内）
@@ -444,4 +444,3 @@
 * レスポンシブCSSは提供物を適用
 
 ---
-

@@ -35,6 +35,12 @@
   gap: 6px;
 }
 
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 .label {
   font-size: 14px;
   font-weight: 600;
@@ -152,5 +158,8 @@
   }
   .card {
     width: 100%;
+  }
+  .name-fields {
+    grid-template-columns: 1fr;
   }
 }

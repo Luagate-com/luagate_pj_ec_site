@@ -16,7 +16,6 @@
   <main class="container">
     <div class="title-block">
       <div class="title">ご注文手続き</div>
-      <div class="subtitle">pageTitleSub</div>
     </div>
 
     <c:if test="${not empty regiError}">
