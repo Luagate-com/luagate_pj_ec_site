@@ -80,9 +80,7 @@
         <div class="card-head" style="padding:0;">設定</div>
         <a class="settings-link" href="${pageContext.request.contextPath}/mypage/password">パスワード変更</a>
         <div>支払い方法</div>
-        <form action="${pageContext.request.contextPath}/logout" method="post">
-          <button class="settings-link muted" type="submit">ログアウト</button>
-        </form>
+        <a class="settings-link muted" href="${pageContext.request.contextPath}/logout">ログアウト</a>
       </div>
     </div>
   </main>
