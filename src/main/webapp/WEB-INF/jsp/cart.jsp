@@ -42,14 +42,22 @@
                 <div class="item-info">
                   <div class="item-name"><c:out value="${item.good.name}" /></div>
                   <div class="item-price">¥<fmt:formatNumber value="${item.good.price}" pattern="#,##0" /></div>
+                  <div class="item-subtotal">小計 ¥<fmt:formatNumber value="${item.subtotal}" pattern="#,##0" /></div>
                 </div>
                 <div class="counter">
                   <form class="counter-form" action="${pageContext.request.contextPath}/cart" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="goodId" value="${item.good.id}">
                     <button type="button" data-action="minus" aria-label="減らす">-</button>
-                    <input class="count" type="number" name="quantity" value="${item.quantity}" min="1" max="99" readonly>
+                    <input class="count" type="number" name="quantity" value="${item.quantity}" min="1" max="99">
                     <button type="button" data-action="plus" aria-label="増やす">+</button>
+                  </form>
+                </div>
+                <div class="actions">
+                  <form action="${pageContext.request.contextPath}/cart" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="goodId" value="${item.good.id}">
+                    <button class="action-link" type="submit">削除</button>
                   </form>
                 </div>
               </div>
@@ -77,13 +85,13 @@
         </div>
         <div class="summary-action">
           <form action="${pageContext.request.contextPath}/regi" method="get">
-            <button class="button-primary" type="submit">注文を確定</button>
+            <button class="button-primary" type="submit">レジへ進む</button>
           </form>
+          <a class="continue-link" href="${pageContext.request.contextPath}/goods">買い物を続ける</a>
         </div>
       </div>
     </div>
   </main>
-
   <script>
     // カウンターの+/-は即時送信する
     document.querySelectorAll('.counter-form').forEach(function(form) {
