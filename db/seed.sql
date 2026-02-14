@@ -1,16 +1,18 @@
 USE ec_site;
 
 INSERT INTO goods (id, code, name, description, price, category, image_url, created_at, updated_at) VALUES
-  (1, 'ZAK-001', '木製スプーンセット',  '天然木を使用した優しい口当たりのスプーンセットです。',  1200, 'キッチン雑貨', '/assets/images/goods/zak-001.jpg', NOW(), NOW()),
-  (2, 'ZAK-002', '耐熱ガラスマグ',  '電子レンジ対応のシンプルな耐熱ガラスマグ。',  1500, '食器', '/assets/images/goods/zak-002.jpg', NOW(), NOW()),
-  (3, 'ZAK-003', 'コットンランチョンマット',  'ナチュラルカラーのコットン素材ランチョンマット。',  800, 'ファブリック', '/assets/images/goods/zak-003.jpg', NOW(), NOW()),
-  (4, 'ZAK-004', '陶器フラワーベース',  'シンプルなデザインでどんな部屋にも合う花瓶。',  2800, 'インテリア', '/assets/images/goods/zak-004.jpg', NOW(), NOW()),
-  (5, 'ZAK-005', '折りたたみ収納ボックス',  '使わない時は折りたためる便利な収納ボックス。',  2200, '収納・小物', '/assets/images/goods/zak-005.jpg', NOW(), NOW()),
-  (6, 'ZAK-006', 'シリコン調理スプーン',  '耐熱性に優れたシリコン製の調理用スプーン。',  1000, 'キッチン雑貨', '/assets/images/goods/zak-006.jpg', NOW(), NOW()),
-  (7, 'ZAK-007', '北欧柄クッションカバー',  '北欧テイストの柄がおしゃれなクッションカバー。',  1800, 'ファブリック', '/assets/images/goods/zak-007.jpg', NOW(), NOW()),
-  (8, 'ZAK-008', '陶器プレート 20cm',  '日常使いしやすいサイズの陶器プレート。',  1600, '食器', '/assets/images/goods/zak-008.jpg', NOW(), NOW()),
-  (9, 'ZAK-009', 'LEDテーブルランプ',  '柔らかな光で空間を演出するテーブルランプ。',  4500, 'インテリア', '/assets/images/goods/zak-009.jpg', NOW(), NOW()),
-  (10, 'ZAK-010', 'デスク小物トレー',  '文房具や小物を整理できるデスク用トレー。',  1300, '収納・小物', '/assets/images/goods/zak-010.jpg', NOW(), NOW());
+  (1, 'ZAK-001', 'アロマキャンドル', '植物由来の香りでリラックスタイムを演出するキャンドル。', 2480, 'インテリア', '/assets/images/goods/aroma_candle.jpg', NOW(), NOW()),
+  (2, 'ZAK-002', 'ガラスフラワーベース', '透明感のあるガラス素材で花を引き立てるベース。', 1980, 'インテリア', '/assets/images/goods/glass_flower_vase.jpg', NOW(), NOW()),
+  (3, 'ZAK-003', '木製カトラリーセット', '天然木の質感が食卓になじむカトラリーセット。', 1320, 'キッチン雑貨', '/assets/images/goods/wooden_cutlery_set.jpg', NOW(), NOW()),
+  (4, 'ZAK-004', 'リネンポーチ', 'ナチュラルな風合いのリネン素材ポーチ。', 1760, 'ファブリック', '/assets/images/goods/linen_pouch.jpg', NOW(), NOW()),
+  (5, 'ZAK-005', 'レタープレス便箋', '上質紙に凹凸が美しいレタープレス便箋。', 880, '文具', '/assets/images/goods/letterpress_stationery.jpg', NOW(), NOW()),
+  (6, 'ZAK-006', 'ミニ観葉植物セット', '小さなグリーンをまとめた室内用セット。', 2200, 'インテリア', '/assets/images/goods/mini_houseplant_set.jpg', NOW(), NOW()),
+  (7, 'ZAK-007', 'エコバッグ', '折りたたみできる軽量エコバッグ。', 1200, 'ファッション', '/assets/images/goods/eco_bag.jpg', NOW(), NOW()),
+  (8, 'ZAK-008', 'アロマディフューザー', 'やさしく香りを広げるアロマディフューザー。', 3500, 'インテリア', '/assets/images/goods/aroma_diffuser.jpg', NOW(), NOW()),
+  (9, 'ZAK-009', 'ハンドメイドキャンドル', '手作りならではの温かみがあるキャンドル。', 1500, 'インテリア', '/assets/images/goods/handmade_candle.jpg', NOW(), NOW()),
+  (10, 'ZAK-010', '陶器のマグカップ', '日常使いしやすい陶器のマグカップ。', 1000, '食器', '/assets/images/goods/ceramic_mug.jpg', NOW(), NOW()),
+  (11, 'ZAK-011', 'キャンバスアート', 'インテリアに映えるキャンバスアート。', 5000, 'インテリア', '/assets/images/goods/canvas_art.jpg', NOW(), NOW()),
+  (12, 'ZAK-012', 'オーガニックティーセット', '香り高い茶葉を詰め合わせたティーセット。', 2800, 'キッチン雑貨', '/assets/images/goods/organic_tea_set.jpg', NOW(), NOW());
 
 INSERT INTO stocks (good_id, quantity, updated_at) VALUES
   (1, 50, NOW()),
@@ -22,4 +24,6 @@ INSERT INTO stocks (good_id, quantity, updated_at) VALUES
   (7, 25, NOW()),
   (8, 35, NOW()),
   (9, 15, NOW()),
-  (10, 80, NOW());
+  (10, 80, NOW()),
+  (11, 20, NOW()),
+  (12, 40, NOW());
