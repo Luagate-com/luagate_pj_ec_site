@@ -139,6 +139,10 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--accent-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 @media (max-width: 1024px) {

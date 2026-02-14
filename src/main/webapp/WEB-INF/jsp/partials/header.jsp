@@ -2,17 +2,9 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <header class="header">
   <div class="header-left">
-    <div class="logo">NORTH CLOUT</div>
-    <nav class="header-tabs">
-      <span class="active">新着</span>
-      <span>カテゴリ</span>
-      <span>ギフト</span>
-    </nav>
+    <a class="logo" href="${pageContext.request.contextPath}/goods">NORTH CRAFT</a>
   </div>
   <div class="header-right">
-    <div class="search">
-      <span>検索</span>
-    </div>
     <c:choose>
       <c:when test="${not empty sessionScope.userId}">
         <a class="button-outline" href="${pageContext.request.contextPath}/mypage">マイページ</a>
