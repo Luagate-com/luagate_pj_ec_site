@@ -1,12 +1,12 @@
 # IMPLEMENTATION_PLAN.md
 
 ## 目的
-本ドキュメントは、`docs/` 配下の設計資料（特に `docs/詳細設計書.md`）に基づき、
+本ドキュメントは、`docs/` 配下の設計資料（特に `docs/detailed_design.md`）に基づき、
 画面/機能単位で実装計画と想定工数（人日）を明確化する。
 
 ## 前提
 - 技術スタック: Java 17 / Servlet / JSP / MySQL
-- 画面・URL・処理フローは `docs/詳細設計書.md` に準拠
+- 画面・URL・処理フローは `docs/detailed_design.md` に準拠
 - 商品/在庫の初期データ（seed）は投入済み
 - JSPは描画専用（業務判断・DBアクセスは行わない）
 - カートはセッション保持（session.cart）
@@ -194,7 +194,7 @@
 
 ---
 
-### テスト実施（テスト仕様書準拠）
+### テスト実施（test_specification 準拠）
 **機能**
 - 主要フロー、在庫不足、未ログイン等の確認
 

@@ -27,7 +27,6 @@ public class SignupServlet extends HttpServlet {
     String name = req.getParameter("name");
     String email = req.getParameter("email");
     String password = req.getParameter("password");
-    String passwordConfirm = req.getParameter("passwordConfirm");
     String postal = req.getParameter("postal");
     String prefecture = req.getParameter("prefecture");
     String city = req.getParameter("city");
@@ -37,8 +36,6 @@ public class SignupServlet extends HttpServlet {
     if (ValidationUtil.isBlank(name)
         || !ValidationUtil.isEmail(email)
         || ValidationUtil.isBlank(password)
-        || ValidationUtil.isBlank(passwordConfirm)
-        || !password.equals(passwordConfirm)
         || ValidationUtil.isBlank(postal)
         || ValidationUtil.isBlank(prefecture)
         || ValidationUtil.isBlank(city)
