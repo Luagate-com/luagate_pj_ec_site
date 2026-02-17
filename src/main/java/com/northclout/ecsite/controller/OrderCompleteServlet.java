@@ -24,9 +24,11 @@ public class OrderCompleteServlet extends HttpServlet {
     HttpSession session = req.getSession();
     Object orderNumber = session.getAttribute("orderNumber");
     if (orderNumber != null) {
+      // PRGパターンで遷移するため、完了画面表示後にセッション値は消す。
       req.setAttribute("orderNumber", orderNumber.toString());
       session.removeAttribute("orderNumber");
     } else {
+      // 直接アクセス時の表示崩れを防ぐためのフォールバック値。
       req.setAttribute("orderNumber", "ORD-240130-001");
     }
     req.getRequestDispatcher("/WEB-INF/jsp/order_complete.jsp").forward(req, resp);
@@ -68,6 +70,7 @@ public class OrderCompleteServlet extends HttpServlet {
     if (stored instanceof List) {
       return (List<CartItemDTO>) stored;
     }
+    // セッションに未作成の場合は空カートとして扱う。
     return new ArrayList<>();
   }
 }

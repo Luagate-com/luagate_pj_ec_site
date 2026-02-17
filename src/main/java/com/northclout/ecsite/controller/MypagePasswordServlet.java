@@ -66,12 +66,14 @@ public class MypagePasswordServlet extends HttpServlet {
     }
 
     UserDTO user = userOpt.get();
+    // 変更前パスワード照合はハッシュ同士で比較する。
     if (!PasswordUtil.hash(currentPassword).equals(user.getPasswordHash())) {
       session.setAttribute("passwordError", "現在のパスワードが正しくありません。");
       resp.sendRedirect(req.getContextPath() + "/mypage/password");
       return;
     }
 
+    // 新しいパスワードのみDBへ反映する。
     dao.updatePassword(user.getId(), PasswordUtil.hash(newPassword));
     resp.sendRedirect(req.getContextPath() + "/mypage");
   }

@@ -86,6 +86,7 @@ public class CartViewServlet extends HttpServlet {
     String goodIdParam = req.getParameter("goodId");
     String quantityParam = req.getParameter("quantity");
 
+    // 数量と商品IDの基本バリデーションはここで統一する。
     if (!ValidationUtil.isLong(goodIdParam) || !ValidationUtil.isPositiveInt(quantityParam, 1, 99)) {
       session.setAttribute("cartError", "数量は1〜99で入力してください。");
       resp.sendRedirect(req.getContextPath() + "/cart");
@@ -118,6 +119,7 @@ public class CartViewServlet extends HttpServlet {
     String goodIdParam = req.getParameter("goodId");
     String quantityParam = req.getParameter("quantity");
 
+    // 更新時も同じルールで数値チェックを行う。
     if (!ValidationUtil.isLong(goodIdParam) || !ValidationUtil.isPositiveInt(quantityParam, 1, 99)) {
       session.setAttribute("cartError", "数量は1〜99で入力してください。");
       resp.sendRedirect(req.getContextPath() + "/cart");
@@ -161,6 +163,7 @@ public class CartViewServlet extends HttpServlet {
     if (stored instanceof List) {
       return (List<CartItemDTO>) stored;
     }
+    // セッション初回アクセス時は空リストを返して呼び出し側でそのまま追加できるようにする。
     return new ArrayList<>();
   }
 }

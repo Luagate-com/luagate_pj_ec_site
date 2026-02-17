@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash VARCHAR(255) NOT NULL,
   last_name VARCHAR(32) NOT NULL,
   first_name VARCHAR(32) NOT NULL,
-  address VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NULL,
   card_number_last4 VARCHAR(4) NULL,
   card_brand VARCHAR(32) NULL,
   card_exp_month TINYINT NULL,

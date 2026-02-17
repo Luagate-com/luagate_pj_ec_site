@@ -5,6 +5,7 @@
     <a class="logo" href="${pageContext.request.contextPath}/goods">NORTH CRAFT</a>
   </div>
   <div class="header-right">
+    <!-- sessionScope.userId の有無でログイン状態を判定する。 -->
     <c:choose>
       <c:when test="${not empty sessionScope.userId}">
         <a class="button-outline" href="${pageContext.request.contextPath}/mypage">マイページ</a>

@@ -19,11 +19,13 @@
     </div>
 
     <c:if test="${not empty regiError}">
+      <!-- regiError は RegiViewServlet / OrderCompleteServlet が設定する失敗メッセージ。 -->
       <div class="error">
         <div>!</div>
         <div>
           <div class="error-title">在庫状況の更新により、注文を確定できませんでした</div>
           <div class="error-text">確定処理中に在庫状況が変わりました。お手数ですが数量を調整してもう一度お試しください。</div>
+          <!-- items はレジ表示中のカート内容（RegiViewServlet で作成）。 -->
           <c:forEach var="item" items="${items}">
             <div class="error-item" style="margin-top:16px;">
               <div class="item-image">
@@ -52,6 +54,7 @@
         <div class="card">
           <div class="card-head">配送先</div>
           <div class="card-body">
+            <!-- user は RegiViewServlet が session.userId から取得して設定する。 -->
             <div class="field">
               <div class="label">氏名</div>
               <input class="input" type="text"
@@ -105,6 +108,7 @@
           <div class="card-head">注文内容</div>
           <div class="card-body">
             <div class="items">
+              <!-- items の各要素は CartItemViewDTO。 -->
               <c:forEach var="item" items="${items}">
                 <div class="item-card">
                   <div class="item-image">
@@ -127,6 +131,7 @@
             </div>
             <div class="summary-row" style="margin-top:16px;">
               <span>小計</span>
+              <!-- total は RegiViewServlet が算出した合計金額。 -->
               <span>¥<fmt:formatNumber value="${total}" pattern="#,##0" /></span>
             </div>
           </div>
@@ -138,6 +143,7 @@
         <div class="summary-body">
           <div class="summary-row">
             <span>小計</span>
+            <!-- total は注文サマリーでも同じ値を表示する。 -->
             <span>¥<fmt:formatNumber value="${total}" pattern="#,##0" /></span>
           </div>
           <div class="summary-row">

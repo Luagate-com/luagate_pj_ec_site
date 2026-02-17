@@ -48,6 +48,7 @@ public class RegiViewServlet extends HttpServlet {
         .map(CartItemDTO::getGoodId)
         .collect(Collectors.toList());
 
+    // 画面描画しやすいように、商品IDをキーに引けるMapへ変換しておく。
     Map<Long, GoodDTO> goodsMap = new HashMap<>();
     GoodDAO goodDAO = new GoodDAO();
     for (GoodDTO good : goodDAO.findByIds(ids)) {
@@ -88,6 +89,7 @@ public class RegiViewServlet extends HttpServlet {
     if (stored instanceof List) {
       return (List<CartItemDTO>) stored;
     }
+    // セッションにカートが無い場合は空として扱う。
     return new ArrayList<>();
   }
 }

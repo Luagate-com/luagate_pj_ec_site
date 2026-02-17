@@ -62,8 +62,9 @@ public class MypageServlet extends HttpServlet {
     String cardExpYear = req.getParameter("cardExpYear");
     String cardName = req.getParameter("cardName");
 
-    if (ValidationUtil.isBlank(lastName) || ValidationUtil.isBlank(address)) {
-      session.setAttribute("mypageError", "氏名と住所は必須です。");
+    // マイページ更新の必須項目だけチェックする（住所は任意）。
+    if (ValidationUtil.isBlank(lastName)) {
+      session.setAttribute("mypageError", "氏名は必須です。");
       resp.sendRedirect(req.getContextPath() + "/mypage");
       return;
     }

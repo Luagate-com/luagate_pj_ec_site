@@ -15,10 +15,12 @@
   <main class="container">
     <div class="section-row">
       <div class="section-title">
+        <!-- totalCount は GoodListServlet が設定する表示件数。 -->
         <h1>商品</h1>
         <span>全 <c:out value="${totalCount}" /> 件</span>
       </div>
       <div class="tabs">
+        <!-- selectedCategory / categories は GoodListServlet から受け取る。 -->
         <a href="${pageContext.request.contextPath}/goods" class="${empty selectedCategory ? 'active' : ''}">すべて</a>
         <c:forEach var="category" items="${categories}">
           <a href="${pageContext.request.contextPath}/goods?category=${category}" class="${selectedCategory == category ? 'active' : ''}">
@@ -29,6 +31,7 @@
     </div>
 
     <div class="grid">
+      <!-- goods は GoodListServlet が DB から取得した商品一覧。 -->
       <c:forEach var="good" items="${goods}">
         <a class="card" href="${pageContext.request.contextPath}/goods/detail?id=${good.id}">
           <c:choose>
