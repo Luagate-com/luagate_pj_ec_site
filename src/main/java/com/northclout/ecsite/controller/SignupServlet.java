@@ -57,11 +57,13 @@ public class SignupServlet extends HttpServlet {
     user.setPasswordHash(PasswordUtil.hash(password));
     user.setLastName(lastName.trim());
     user.setFirstName(firstName.trim());
+    // 現仕様では住所入力を扱わないためNULL保存とする。
     user.setAddress(null);
 
     long userId = dao.insertUser(user);
 
     HttpSession session = req.getSession();
+    // 登録完了後は自動ログイン状態にする。
     session.setAttribute("userId", userId);
     resp.sendRedirect(req.getContextPath() + "/goods");
   }

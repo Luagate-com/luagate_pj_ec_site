@@ -17,11 +17,13 @@
       <div class="title">ログイン</div>
 
       <c:if test="${not empty loginError}">
+        <!-- loginError は LoginServlet が認証失敗時に設定する。 -->
         <div class="error"><c:out value="${loginError}" /></div>
       </c:if>
 
       <div class="field">
         <label class="label" for="email">メールアドレス</label>
+        <!-- value は入力エラー時に param 経由で再表示する。 -->
         <input class="input" id="email" name="email" type="email" value="${param.email}" placeholder="example@northclout.jp">
       </div>
 

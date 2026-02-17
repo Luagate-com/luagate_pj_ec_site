@@ -22,6 +22,7 @@ public class OrderService {
       return OrderResult.failure("カートが空です。");
     }
 
+    // 注文作成・明細作成・在庫減算は1つのトランザクションで扱う。
     return TransactionManager.execute(conn -> {
       GoodDAO goodDAO = new GoodDAO();
       StockDAO stockDAO = new StockDAO();
@@ -59,6 +60,7 @@ public class OrderService {
         total += good.getPrice() * item.getQuantity();
       }
 
+      // 先にordersを作成し、取得したorderIdをorder_itemsに関連付ける。
       long orderId = orderDAO.insertOrder(conn, userId, LocalDateTime.now(), total);
 
       for (CartItemDTO item : cartItems) {

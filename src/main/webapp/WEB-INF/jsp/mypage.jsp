@@ -16,6 +16,7 @@
     <div class="title">マイページ</div>
 
     <c:if test="${not empty mypageError}">
+      <!-- mypageError は MypageServlet がセッション経由で渡す。 -->
       <div class="error"><c:out value="${mypageError}" /></div>
     </c:if>
 
@@ -23,6 +24,7 @@
       <div class="card" style="flex:1;">
         <div class="card-head">会員情報</div>
         <div class="card-body">
+          <!-- user は MypageServlet が session.userId から取得して設定する。 -->
           <div class="row">
             <div class="label">氏名</div>
             <div><c:out value="${user.lastName}" /> <c:out value="${user.firstName}" /></div>
@@ -37,6 +39,7 @@
           </div>
 
           <form class="edit-form" action="${pageContext.request.contextPath}/mypage" method="post">
+            <!-- _method=PUT で更新リクエストとして扱う。 -->
             <input type="hidden" name="_method" value="PUT">
             <div class="field">
               <label class="label">氏名</label>

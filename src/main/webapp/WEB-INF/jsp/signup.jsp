@@ -17,11 +17,13 @@
       <div class="title">新規会員登録</div>
 
       <c:if test="${not empty signupError}">
+        <!-- signupError は SignupServlet の入力/重複チェック失敗時に設定される。 -->
         <div class="error"><c:out value="${signupError}" /></div>
       </c:if>
 
       <div class="field">
         <label class="label">氏名</label>
+        <!-- 入力値は param から再表示し、エラー時の再入力コストを下げる。 -->
         <div class="name-fields">
           <input class="input" name="lastName" type="text" value="${param.lastName}" placeholder="山田">
           <input class="input" name="firstName" type="text" value="${param.firstName}" placeholder="花子">

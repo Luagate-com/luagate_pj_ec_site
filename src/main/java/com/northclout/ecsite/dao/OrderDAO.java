@@ -7,8 +7,10 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 
 public class OrderDAO {
+  // 注文ヘッダ（orders）作成SQL。
   private static final String INSERT_ORDER =
       "INSERT INTO orders (user_id, ordered_at, total_amount, created_at) VALUES (?, ?, ?, NOW())";
+  // 注文明細（order_items）作成SQL。
   private static final String INSERT_ITEM =
       "INSERT INTO order_items (order_id, good_id, unit_price, quantity, created_at) VALUES (?, ?, ?, ?, NOW())";
 
@@ -20,6 +22,7 @@ public class OrderDAO {
       stmt.executeUpdate();
       try (var rs = stmt.getGeneratedKeys()) {
         if (rs.next()) {
+          // 自動採番された注文IDを返し、明細登録で使う。
           return rs.getLong(1);
         }
       }
