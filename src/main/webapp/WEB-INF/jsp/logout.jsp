@@ -13,7 +13,7 @@
   <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
   <main class="container">
-    <form class="card" action="${pageContext.request.contextPath}/logout/execute" method="post">
+    <form class="card" action="${pageContext.request.contextPath}/logout" method="post">
       <div class="title">ログアウト</div>
       <div class="field">
         <div class="label">ログアウトしますか？</div>
