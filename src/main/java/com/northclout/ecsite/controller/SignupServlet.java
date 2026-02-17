@@ -31,6 +31,7 @@ public class SignupServlet extends HttpServlet {
     String passwordConfirm = req.getParameter("passwordConfirm");
     String agree = req.getParameter("agree");
 
+    // 会員登録の必須入力と整合性チェックをまとめて行う。
     if (ValidationUtil.isBlank(lastName)
         || ValidationUtil.isBlank(firstName)
         || !ValidationUtil.isEmail(email)
