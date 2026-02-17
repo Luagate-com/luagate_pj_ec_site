@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     HttpSession session = req.getSession();
+    // 認証済みユーザーIDをセッションに保持してログイン状態を表現する。
     session.setAttribute("userId", user.getId());
     resp.sendRedirect(req.getContextPath() + "/goods");
   }

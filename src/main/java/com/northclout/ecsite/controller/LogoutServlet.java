@@ -20,6 +20,7 @@ public class LogoutServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     HttpSession session = req.getSession(false);
     if (session != null) {
+      // ログイン状態を完全に破棄する。
       session.invalidate();
     }
     resp.sendRedirect(req.getContextPath() + "/goods");

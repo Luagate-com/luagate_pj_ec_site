@@ -17,6 +17,7 @@
     <div class="title">カート</div>
 
     <c:if test="${not empty cartError}">
+      <!-- cartError は CartViewServlet がセッション経由で渡すエラーメッセージ。 -->
       <div class="error"><c:out value="${cartError}" /></div>
     </c:if>
 
@@ -27,6 +28,7 @@
             <div class="item-card">カートに商品がありません。</div>
           </c:when>
           <c:otherwise>
+            <!-- items は CartViewServlet が組み立てた表示用DTOのリスト。 -->
             <c:forEach var="item" items="${items}">
               <div class="item-card">
                 <div class="item-image">
@@ -45,6 +47,7 @@
                   <div class="item-subtotal">小計 ¥<fmt:formatNumber value="${item.subtotal}" pattern="#,##0" /></div>
                 </div>
                 <div class="counter">
+                  <!-- _method=PUT を使い、CartViewServlet で数量更新として扱う。 -->
                   <form class="counter-form" action="${pageContext.request.contextPath}/cart" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="goodId" value="${item.good.id}">
@@ -54,6 +57,7 @@
                   </form>
                 </div>
                 <div class="actions">
+                  <!-- _method=DELETE を使い、CartViewServlet で削除として扱う。 -->
                   <form action="${pageContext.request.contextPath}/cart" method="post">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="goodId" value="${item.good.id}">
@@ -71,6 +75,7 @@
         <div class="summary-body">
           <div class="summary-row">
             <span>小計</span>
+            <!-- total は CartViewServlet が算出した合計金額。 -->
             <span>¥<fmt:formatNumber value="${total}" pattern="#,##0" /></span>
           </div>
           <div class="summary-row">

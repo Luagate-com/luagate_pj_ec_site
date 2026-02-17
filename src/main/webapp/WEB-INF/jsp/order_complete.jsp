@@ -15,6 +15,7 @@
   <main class="container">
     <img class="illustration" src="${pageContext.request.contextPath}/assets/images/order_complete.svg" alt="">
     <div class="title">ご注文ありがとうございました</div>
+    <!-- orderNumber は OrderCompleteServlet がセッションから取り出して設定する。 -->
     <div class="order-number">注文番号: #<c:out value="${orderNumber}" /></div>
     <div class="message">
       <p style="margin:0;">ご注文内容はマイページからご確認いただけます。</p>

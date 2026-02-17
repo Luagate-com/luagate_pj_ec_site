@@ -13,6 +13,7 @@
   <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
   <main class="container">
+    <!-- POST /logout でセッション破棄し、商品一覧へ戻す。 -->
     <form class="card" action="${pageContext.request.contextPath}/logout" method="post">
       <div class="title">ログアウト</div>
       <div class="field">

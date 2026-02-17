@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class StockDAO {
+  // 注文確定時の在庫確認で行ロックを取得するSQL。
   private static final String SELECT_FOR_UPDATE =
       "SELECT good_id, quantity FROM stocks WHERE good_id = ? FOR UPDATE";
+  // 注文確定後の在庫数更新SQL。
   private static final String UPDATE_QUANTITY =
       "UPDATE stocks SET quantity = ?, updated_at = NOW() WHERE good_id = ?";
 

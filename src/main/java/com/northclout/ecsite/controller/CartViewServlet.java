@@ -163,6 +163,7 @@ public class CartViewServlet extends HttpServlet {
     if (stored instanceof List) {
       return (List<CartItemDTO>) stored;
     }
+    // セッション初回アクセス時は空リストを返して呼び出し側でそのまま追加できるようにする。
     return new ArrayList<>();
   }
 }
