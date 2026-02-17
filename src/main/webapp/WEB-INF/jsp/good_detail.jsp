@@ -22,6 +22,7 @@
 
     <div class="detail">
       <div class="image">
+        <!-- good は GoodDetailServlet が id 指定で取得した1件データ。 -->
         <c:choose>
           <c:when test="${not empty good.imageUrl}">
             <img src="${pageContext.request.contextPath}${good.imageUrl}" alt="">
@@ -47,6 +48,7 @@
         </div>
 
         <div class="actions">
+          <!-- good.id を hidden で渡して CartViewServlet 側で追加処理する。 -->
           <form id="addToCartForm" action="${pageContext.request.contextPath}/cart" method="post" style="display:inline-flex;gap:10px;">
             <input type="hidden" name="goodId" value="${good.id}">
             <button class="button-primary" type="submit">カートに追加</button>

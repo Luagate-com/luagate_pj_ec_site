@@ -17,6 +17,7 @@
       <div class="title">パスワード変更</div>
 
       <c:if test="${not empty passwordError}">
+        <!-- passwordError は MypagePasswordServlet がセッション経由で渡す。 -->
         <div class="error"><c:out value="${passwordError}" /></div>
       </c:if>
 

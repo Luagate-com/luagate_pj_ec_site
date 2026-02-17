@@ -27,6 +27,7 @@ public class LoginServlet extends HttpServlet {
     String email = req.getParameter("email");
     String password = req.getParameter("password");
 
+    // ログインの最低限バリデーション（形式と必須）を実施する。
     if (!ValidationUtil.isEmail(email) || ValidationUtil.isBlank(password)) {
       req.setAttribute("loginError", "メールアドレスまたはパスワードが正しくありません。");
       req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
@@ -50,6 +51,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     HttpSession session = req.getSession();
+    // 認証済みユーザーIDをセッションに保持してログイン状態を表現する。
     session.setAttribute("userId", user.getId());
     resp.sendRedirect(req.getContextPath() + "/goods");
   }

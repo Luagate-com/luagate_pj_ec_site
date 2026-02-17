@@ -31,6 +31,7 @@ public class SignupServlet extends HttpServlet {
     String passwordConfirm = req.getParameter("passwordConfirm");
     String agree = req.getParameter("agree");
 
+    // 会員登録の必須入力と整合性チェックをまとめて行う。
     if (ValidationUtil.isBlank(lastName)
         || ValidationUtil.isBlank(firstName)
         || !ValidationUtil.isEmail(email)
@@ -56,11 +57,13 @@ public class SignupServlet extends HttpServlet {
     user.setPasswordHash(PasswordUtil.hash(password));
     user.setLastName(lastName.trim());
     user.setFirstName(firstName.trim());
+    // 現仕様では住所入力を扱わないためNULL保存とする。
     user.setAddress(null);
 
     long userId = dao.insertUser(user);
 
     HttpSession session = req.getSession();
+    // 登録完了後は自動ログイン状態にする。
     session.setAttribute("userId", userId);
     resp.sendRedirect(req.getContextPath() + "/goods");
   }

@@ -11,22 +11,27 @@ import java.sql.Statement;
 import java.util.Optional;
 
 public class UserDAO {
+  // ユーザーIDで会員情報を取得するSQL。
   private static final String SELECT_BY_ID =
       "SELECT id, email, password_hash, last_name, first_name, address, "
           + "card_number_last4, card_brand, card_exp_month, card_exp_year, card_name "
           + "FROM users WHERE id = ?";
+  // ログイン認証で使うメールアドレス検索SQL。
   private static final String SELECT_BY_EMAIL =
       "SELECT id, email, password_hash, last_name, first_name, address, "
           + "card_number_last4, card_brand, card_exp_month, card_exp_year, card_name "
           + "FROM users WHERE email = ?";
+  // 新規会員登録SQL。
   private static final String INSERT_USER =
       "INSERT INTO users (email, password_hash, last_name, first_name, address, "
           + "card_number_last4, card_brand, card_exp_month, card_exp_year, card_name, created_at, updated_at) "
           + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+  // マイページ編集SQL。
   private static final String UPDATE_USER =
       "UPDATE users SET last_name = ?, first_name = ?, address = ?, "
           + "card_number_last4 = ?, card_brand = ?, card_exp_month = ?, card_exp_year = ?, card_name = ?, "
           + "updated_at = NOW() WHERE id = ?";
+  // パスワード変更SQL。
   private static final String UPDATE_PASSWORD =
       "UPDATE users SET password_hash = ?, updated_at = NOW() WHERE id = ?";
 
@@ -131,6 +136,7 @@ public class UserDAO {
   }
 
   private UserDTO mapRow(ResultSet rs) throws SQLException {
+    // DBの1レコードをDTOへ詰め替える共通マッパー。
     UserDTO dto = new UserDTO();
     dto.setId(rs.getLong("id"));
     dto.setEmail(rs.getString("email"));
