@@ -76,7 +76,7 @@ public class UserDAO {
       stmt.setString(6, user.getCardNumberLast4());
       stmt.setString(7, user.getCardBrand());
       if (user.getCardExpMonth() == null) {
-        stmt.setNull(8, java.sql.Types.TINYINT);
+        stmt.setNull(8, java.sql.Types.SMALLINT);
       } else {
         stmt.setInt(8, user.getCardExpMonth());
       }
@@ -107,7 +107,7 @@ public class UserDAO {
       stmt.setString(4, user.getCardNumberLast4());
       stmt.setString(5, user.getCardBrand());
       if (user.getCardExpMonth() == null) {
-        stmt.setNull(6, java.sql.Types.TINYINT);
+        stmt.setNull(6, java.sql.Types.SMALLINT);
       } else {
         stmt.setInt(6, user.getCardExpMonth());
       }

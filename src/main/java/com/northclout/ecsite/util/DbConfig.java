@@ -31,10 +31,27 @@ public final class DbConfig {
     if (!loaded) {
       load();
     }
-    String value = PROPERTIES.getProperty(key);
+    // 本番は環境変数（DB_URL / DB_USER / DB_PASSWORD）、ローカルは db.properties を使う。
+    String value = getFromEnv(key);
+    if (value == null || value.isBlank()) {
+      value = PROPERTIES.getProperty(key);
+    }
     if (value == null || value.isBlank()) {
       throw new IllegalStateException("Missing config: " + key);
     }
     return value;
+  }
+
+  private static String getFromEnv(String key) {
+    if ("db.url".equals(key)) {
+      return System.getenv("DB_URL");
+    }
+    if ("db.user".equals(key)) {
+      return System.getenv("DB_USER");
+    }
+    if ("db.password".equals(key)) {
+      return System.getenv("DB_PASSWORD");
+    }
+    return null;
   }
 }
