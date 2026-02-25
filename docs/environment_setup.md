@@ -5,7 +5,7 @@
 - Java 17
 - Maven
 - Tomcat 10
-- MySQL（ローカル）
+- PostgreSQL（ローカル or Neon 接続）
 
 ## 0. Homebrew の確認
 未インストールの場合は先に Homebrew を導入する。
@@ -69,73 +69,137 @@ source ~/.zshrc
 catalina version
 ```
 
-## 4. MySQL（ローカル）の準備
-MySQL 8.4（LTS）を利用する。
-
+## 4. PostgreSQL（ローカル）の準備
 インストール:
 
 ```bash
-brew install mysql@8.4
+brew install postgresql@16
 ```
 
 起動:
 
 ```bash
-brew services start mysql@8.4
+brew services start postgresql@16
 ```
 
 PATH 反映:
 
 ```bash
-echo 'export PATH="/opt/homebrew/opt/mysql@8.4/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
 バージョン確認:
 
 ```bash
-mysql --version
+psql --version
 ```
 
 ### 4.1 DB とテーブルの作成
-root で接続できることを確認:
+`postgres` ユーザーで接続:
 
 ```bash
-mysql -u root
+psql postgres
 ```
 
-DB とテーブルを作成:
+DB 作成と接続:
 
 ```sql
-source db/schema.sql;
+CREATE DATABASE ec_site;
+\c ec_site
+```
+
+テーブル作成:
+
+```sql
+\i db/schema.sql
 ```
 
 ### 4.2 初期データ投入
 
 ```sql
-source db/seed.sql;
+\i db/seed.sql
+```
+
+### 4.2.1 seed投入後の確認
+
+```sql
+\dt
+SELECT COUNT(*) FROM goods;
+SELECT COUNT(*) FROM stocks;
+SELECT id, code, name, image_url FROM goods ORDER BY id;
 ```
 
 ### 4.3 アプリ用ユーザーの作成
 
 ```sql
-CREATE USER 'ec_user'@'localhost' IDENTIFIED BY 'ec_password';
-GRANT ALL PRIVILEGES ON ec_site.* TO 'ec_user'@'localhost';
-FLUSH PRIVILEGES;
-exit;
+CREATE USER ec_user WITH PASSWORD 'ec_password';
+GRANT CONNECT ON DATABASE ec_site TO ec_user;
+\c ec_site
+GRANT USAGE ON SCHEMA public TO ec_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ec_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ec_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ec_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE, SELECT ON SEQUENCES TO ec_user;
+\q
 ```
 
-## 5. DB接続設定
+## 5. Neon 接続を使う場合
+### 5.1 Neon Local（Docker）を使う
+Neon Local コンテナを起動する。
+
+```bash
+docker run --rm \
+  --name neon-local-db \
+  -p 5432:5432 \
+  -e NEON_API_KEY=<your_neon_api_key> \
+  -e NEON_PROJECT_ID=<your_neon_project_id> \
+  -e DRIVER=postgres \
+  neondatabase/neon_local:latest
+```
+
+`src/main/resources/db.properties` の設定例:
+
+```properties
+db.url=jdbc:postgresql://localhost:5432/neondb
+db.user=neon
+db.password=npg
+```
+
+### 5.2 Neon Managed（クラウド）を使う
+Neon Local を使わず直接接続する場合は、Neon管理画面の接続情報を設定する。
+
+```properties
+db.url=jdbc:postgresql://<host>/<database>?sslmode=require
+db.user=<user>
+db.password=<password>
+```
+
+## 6. DB接続設定
 `src/main/resources/db.properties` をローカル環境に合わせて更新する。
 
-## 6. ビルド
+ローカル開発では `db.properties` の値を利用する。  
+本番環境では `DB_URL` / `DB_USER` / `DB_PASSWORD` の環境変数を設定し、
+環境変数の値を優先して接続する。
+
+例（本番・Neon Managed）:
+
+```bash
+export DB_URL='jdbc:postgresql://<host>/<database>?sslmode=require'
+export DB_USER='<user>'
+export DB_PASSWORD='<password>'
+```
+
+## 7. ビルド
 以下で WAR を生成する。
 
 ```bash
 mvn clean package
 ```
 
-## 7. 配置と起動
+## 8. 配置と起動
 `target/ROOT.war` を Tomcat の `webapps/` に配置して Tomcat を起動する。
 
 例:
@@ -145,16 +209,6 @@ cp target/ROOT.war $CATALINA_HOME/webapps/
 $CATALINA_HOME/bin/startup.sh
 ```
 
-## 8. 動作確認
+## 9. 動作確認
 - `http://localhost:8080/` にアクセス
 - `/goods` にリダイレクトされることを確認
-
-## 補足: MySQL 起動失敗時の対処
-MySQL 9.x への自動アップグレードで起動できない場合は、8.4（LTS）へ戻す。
-
-```bash
-brew services stop mysql
-mv /opt/homebrew/var/mysql /opt/homebrew/var/mysql_backup_$(date +%Y%m%d_%H%M%S)
-brew install mysql@8.4
-brew services start mysql@8.4
-```
