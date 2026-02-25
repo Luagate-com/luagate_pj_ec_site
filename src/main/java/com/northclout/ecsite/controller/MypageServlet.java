@@ -62,17 +62,10 @@ public class MypageServlet extends HttpServlet {
     String cardExpYear = req.getParameter("cardExpYear");
     String cardName = req.getParameter("cardName");
 
-    // マイページ更新の必須項目だけチェックする（住所は任意）。
-    if (ValidationUtil.isBlank(lastName)) {
-      session.setAttribute("mypageError", "氏名は必須です。");
-      resp.sendRedirect(req.getContextPath() + "/mypage");
-      return;
-    }
-
     UserDTO user = new UserDTO();
     user.setId((Long) userId);
-    user.setLastName(lastName);
-    user.setFirstName(firstName == null ? "" : firstName);
+    user.setLastName(normalizeToEmpty(lastName));
+    user.setFirstName(normalizeToEmpty(firstName));
     user.setAddress(address);
     user.setCardBrand(blankToNull(cardBrand));
     user.setCardNumberLast4(blankToNull(cardLast4));
@@ -94,5 +87,9 @@ public class MypageServlet extends HttpServlet {
 
   private String blankToNull(String value) {
     return ValidationUtil.isBlank(value) ? null : value.trim();
+  }
+
+  private String normalizeToEmpty(String value) {
+    return ValidationUtil.isBlank(value) ? "" : value.trim();
   }
 }
