@@ -1,5 +1,3 @@
-USE ec_site;
-
 INSERT INTO goods (id, code, name, description, price, category, image_url, created_at, updated_at) VALUES
   (1, 'ZAK-001', 'アロマキャンドル', '植物由来の香りでリラックスタイムを演出するキャンドル。', 2480, 'インテリア', '/assets/images/goods/aroma_candle.jpg', NOW(), NOW()),
   (2, 'ZAK-002', 'ガラスフラワーベース', '透明感のあるガラス素材で花を引き立てるベース。', 1980, 'インテリア', '/assets/images/goods/glass_flower_vase.jpg', NOW(), NOW()),
@@ -27,3 +25,6 @@ INSERT INTO stocks (good_id, quantity, updated_at) VALUES
   (10, 80, NOW()),
   (11, 20, NOW()),
   (12, 40, NOW());
+
+-- 明示的にIDを挿入しているため、次回採番値を現在の最大IDに合わせる。
+SELECT setval(pg_get_serial_sequence('goods', 'id'), COALESCE((SELECT MAX(id) FROM goods), 1), true);
