@@ -94,6 +94,11 @@ public class CartViewServlet extends HttpServlet {
     }
 
     long goodId = Long.parseLong(goodIdParam);
+    if (!existsGood(goodId)) {
+      session.setAttribute("cartError", "不正な商品が指定されました。");
+      resp.sendRedirect(req.getContextPath() + "/cart");
+      return;
+    }
     int quantity = Integer.parseInt(quantityParam);
 
     List<CartItemDTO> cart = getCart(session);
@@ -127,6 +132,11 @@ public class CartViewServlet extends HttpServlet {
     }
 
     long goodId = Long.parseLong(goodIdParam);
+    if (!existsGood(goodId)) {
+      session.setAttribute("cartError", "不正な商品が指定されました。");
+      resp.sendRedirect(req.getContextPath() + "/cart");
+      return;
+    }
     int quantity = Integer.parseInt(quantityParam);
 
     List<CartItemDTO> cart = getCart(session);
@@ -150,6 +160,11 @@ public class CartViewServlet extends HttpServlet {
     }
 
     long goodId = Long.parseLong(goodIdParam);
+    if (!existsGood(goodId)) {
+      session.setAttribute("cartError", "不正な商品が指定されました。");
+      resp.sendRedirect(req.getContextPath() + "/cart");
+      return;
+    }
     List<CartItemDTO> cart = getCart(session);
     cart.removeIf(item -> item.getGoodId() == goodId);
     session.setAttribute(CART_SESSION_KEY, cart);
@@ -165,5 +180,11 @@ public class CartViewServlet extends HttpServlet {
     }
     // セッション初回アクセス時は空リストを返して呼び出し側でそのまま追加できるようにする。
     return new ArrayList<>();
+  }
+
+  private boolean existsGood(long goodId) {
+    // goodId は goods に存在する値のみ受け付ける。
+    GoodDAO dao = new GoodDAO();
+    return dao.findById(goodId).isPresent();
   }
 }
