@@ -7,14 +7,14 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>ec_site_practical_project</name>
+  <name>luagate_pj_ec_site</name>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
-    <jakarta.jstl.version>3.0.0</jakarta.jstl.version>
+    <jakarta.jstl.version>3.0.1</jakarta.jstl.version>
     <postgresql.version>42.7.4</postgresql.version>
   </properties>
 
