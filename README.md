@@ -1,4 +1,4 @@
-# ec_site_practical_project (starter)
+# luagate_pj_ec_site (starter)
 
 このブランチは **実装前の雛形（starter）** です。受講生はこのブランチを fork してから Codespaces で開き、各 Chapter の手順に従って Servlet / JSP / DAO を実装していきます。
 
