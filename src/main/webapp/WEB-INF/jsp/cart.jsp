@@ -28,13 +28,13 @@
             <div class="item-card">カートに商品がありません。</div>
           </c:when>
           <c:otherwise>
-            <!-- TODO Ch7-4: items を <c:forEach var="item" items="${items}"> で展開する -->
-            <!--   ループの中で表示すべき項目:                                          -->
-            <!--     - 商品画像 (item.good.imageUrl が空ならプレースホルダー)            -->
-            <!--     - 商品名 (item.good.name)                                          -->
-            <!--     - 単価 (item.good.price) と 小計 (item.subtotal) を fmt:formatNumber で整形 -->
-            <!--     - 数量変更フォーム: _method=PUT, goodId, quantity を持つ POST フォーム  -->
-            <!--     - 削除フォーム:    _method=DELETE, goodId を持つ POST フォーム         -->
+            <%-- TODO Ch7-4: items を <c:forEach var="item" items="${items}"> で展開する --%>
+            <%--   ループの中で表示すべき項目:                                          --%>
+            <%--     - 商品画像 (item.good.imageUrl が空ならプレースホルダー)            --%>
+            <%--     - 商品名 (item.good.name)                                          --%>
+            <%--     - 単価 (item.good.price) と 小計 (item.subtotal) を fmt:formatNumber で整形 --%>
+            <%--     - 数量変更フォーム: _method=PUT, goodId, quantity を持つ POST フォーム  --%>
+            <%--     - 削除フォーム:    _method=DELETE, goodId を持つ POST フォーム         --%>
           </c:otherwise>
         </c:choose>
       </div>
@@ -44,7 +44,7 @@
         <div class="summary-body">
           <div class="summary-row">
             <span>小計</span>
-            <!-- TODO Ch7-4: CartViewServlet が req にセットした total を fmt:formatNumber で整形して表示 -->
+            <%-- TODO Ch7-4: CartViewServlet が req にセットした total を fmt:formatNumber で整形して表示 --%>
             <span>¥0</span>
           </div>
           <div class="summary-row">

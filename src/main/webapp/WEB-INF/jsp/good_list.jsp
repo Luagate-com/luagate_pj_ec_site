@@ -32,13 +32,13 @@
 
     <div class="grid">
       <!-- goods は GoodListServlet が DB から取得した商品一覧。 -->
-      <!-- TODO Ch7-3: goods を c:forEach で展開し、各商品のカードを描画する
+      <%-- TODO Ch7-3: goods を c:forEach で展開し、各商品のカードを描画する
            ヒント:
-             - <c:forEach var="good" items="${goods}"> で 1 件ずつ取り出す
+             - c:forEach var="good" items="${goods}" で 1 件ずつ取り出す
              - リンク先は ${pageContext.request.contextPath}/goods/detail?id=${good.id}
              - good.imageUrl があればそれを、無ければ /assets/images/goods/${good.name}.jpg を表示
              - good.name / good.category / good.price をカードに表示する
-             - 価格は <fmt:formatNumber value="${good.price}" pattern="#,##0" /> で 3 桁区切りに -->
+             - 価格は fmt:formatNumber value="${good.price}" pattern="#,##0" で 3 桁区切りに --%>
       <c:if test="${empty goods}">
         <p>商品が見つかりませんでした。</p>
       </c:if>

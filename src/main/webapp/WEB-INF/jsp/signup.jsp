@@ -16,7 +16,7 @@
     <form class="card" action="${pageContext.request.contextPath}/signup" method="post">
       <div class="title">新規会員登録</div>
 
-      <!--
+      <%--
         TODO Ch7-5: 会員登録エラーメッセージを表示
         ヒント:
           - SignupServlet が入力エラーやメール重複時に req.setAttribute("signupError", "...") を設定する
@@ -26,7 +26,7 @@
           <c:if test="${not empty signupError}">
             <div class="error"><c:out value="${signupError}" /></div>
           </c:if>
-      -->
+      --%>
 
       <div class="field">
         <label class="label">氏名</label>

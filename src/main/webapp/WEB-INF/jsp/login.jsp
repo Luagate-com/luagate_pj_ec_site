@@ -16,7 +16,7 @@
     <form class="card" action="${pageContext.request.contextPath}/login" method="post">
       <div class="title">ログイン</div>
 
-      <!--
+      <%--
         TODO Ch7-5: ログインエラーメッセージを表示
         ヒント:
           - LoginServlet が認証失敗時に req.setAttribute("loginError", "...") でメッセージを設定する
@@ -27,7 +27,7 @@
           <c:if test="${not empty loginError}">
             <div class="error"><c:out value="${loginError}" /></div>
           </c:if>
-      -->
+      --%>
 
       <div class="field">
         <label class="label" for="email">メールアドレス</label>

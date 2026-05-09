@@ -16,7 +16,7 @@ set -euo pipefail
 VARIANT="${1:-demo}"
 case "$VARIANT" in
   demo)    SERVICE_NAME="prod-luagate-pj-ec-demo" ;;
-  starter) SERVICE_NAME="prod-luagate-pj-ec-starter" ;;
+  starter) SERVICE_NAME="prod-luagate-pj-ec-demo-starter" ;;
   *)
     echo "Usage: $0 [demo|starter]" >&2
     exit 1
