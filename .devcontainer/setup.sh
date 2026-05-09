@@ -7,10 +7,12 @@
 # ============================================================
 set -euo pipefail
 
-TOMCAT_VERSION="10.1.36"
+TOMCAT_VERSION="10.1.54"
 TOMCAT_DIR="$HOME/apache-tomcat-${TOMCAT_VERSION}"
 TOMCAT_TARBALL="apache-tomcat-${TOMCAT_VERSION}.tar.gz"
-TOMCAT_URL="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
+# 最新リリースは dlcdn.apache.org、過去版は archive.apache.org にある。両方試す
+TOMCAT_URL_MIRROR="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
+TOMCAT_URL_ARCHIVE="https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
 
 echo "==> Java / Maven バージョン確認"
 java -version
@@ -19,7 +21,14 @@ mvn -version
 if [ ! -d "$TOMCAT_DIR" ]; then
   echo "==> Apache Tomcat ${TOMCAT_VERSION} をダウンロード"
   cd "$HOME"
-  curl -fsSL "$TOMCAT_URL" -o "$TOMCAT_TARBALL"
+  if curl -fsSL "$TOMCAT_URL_MIRROR" -o "$TOMCAT_TARBALL"; then
+    echo "    (dlcdn から取得)"
+  elif curl -fsSL "$TOMCAT_URL_ARCHIVE" -o "$TOMCAT_TARBALL"; then
+    echo "    (archive から取得)"
+  else
+    echo "ERROR: Tomcat ${TOMCAT_VERSION} のダウンロードに失敗" >&2
+    exit 1
+  fi
   tar -xzf "$TOMCAT_TARBALL"
   rm -f "$TOMCAT_TARBALL"
   chmod +x "$TOMCAT_DIR/bin/"*.sh
