@@ -1,0 +1,10 @@
+.git
+.gitignore
+target
+docs
+*.md
+!pom.xml
+.idea
+.vscode
+*.iml
+.DS_Store
