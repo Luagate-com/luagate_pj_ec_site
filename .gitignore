@@ -4,5 +4,7 @@
 .DS_Store
 *.iml
 *.log
-# Cloud Run デプロイ用ローカル設定（DB 接続情報）
+# DB 接続情報（受講生が Codespaces / ローカルで設定）
+.env
+# Cloud Run デプロイ用ローカル設定
 .env.deploy
