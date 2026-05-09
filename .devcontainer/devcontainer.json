@@ -7,5 +7,12 @@
       "installMaven": true
     }
   },
-  "postCreateCommand": "java -version && mvn -version"
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Tomcat",
+      "onAutoForward": "notify"
+    }
+  }
 }
