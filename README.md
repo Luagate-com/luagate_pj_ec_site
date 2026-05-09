@@ -17,3 +17,20 @@ LuaGate 実践プロジェクト「ECサイト」のリポジトリ。
 ```bash
 git clone -b starter https://github.com/Luagate-com/luagate_pj_ec_site.git
 ```
+
+## 開発環境
+
+- **Java**: 25 (LTS, 2025年9月リリース)
+- **Maven**: 3.9+
+- **Tomcat**: 10.1
+
+### GitHub Codespaces で動かす
+
+`.devcontainer/devcontainer.json` を同梱しているので、Codespaces を起動すれば Java 25 + Maven が入った状態で立ち上がる。
+
+Codespaces 標準ベースイメージは複数の JDK が `update-alternatives` で管理されているため、Java 25 がデフォルトでない場合は次のコマンドで切り替える。
+
+```bash
+./scripts/use-java25.sh
+```
+
