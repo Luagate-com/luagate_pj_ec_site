@@ -1,0 +1,11 @@
+{
+  "name": "luagate_pj_ec_site",
+  "image": "mcr.microsoft.com/devcontainers/java:25",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "25",
+      "installMaven": true
+    }
+  },
+  "postCreateCommand": "java -version && mvn -version"
+}

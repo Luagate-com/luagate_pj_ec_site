@@ -2,7 +2,8 @@
 # ============================================================
 # Stage 1: Build the WAR with Maven
 # ============================================================
-FROM maven:3.9-eclipse-temurin-17 AS build
+# ※ Java 25 LTS リリース後にイメージタグが提供されたら更新する
+FROM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /app
 
 # 依存だけ先にダウンロードしてキャッシュさせる
@@ -13,9 +14,10 @@ COPY src ./src
 RUN mvn -B -ntp clean package -DskipTests
 
 # ============================================================
-# Stage 2: Run on Tomcat 10.1 / JDK 17
+# Stage 2: Run on Tomcat 10.1 / JDK 25
 # ============================================================
-FROM tomcat:10.1-jdk17-temurin
+# ※ Java 25 LTS リリース後にイメージタグが提供されたら更新する
+FROM tomcat:10.1-jdk25-temurin
 
 # Cloud Run は PORT 環境変数を渡す（デフォルト 8080）。
 # Tomcat 起動時に server.xml の Connector ポートを書き換える。
