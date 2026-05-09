@@ -26,49 +26,20 @@ public class CartViewServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    HttpSession session = req.getSession();
-    List<CartItemDTO> cart = getCart(session);
-
-    List<Long> ids = cart.stream()
-        .map(CartItemDTO::getGoodId)
-        .collect(Collectors.toList());
-
-    Map<Long, GoodDTO> goodsMap = new HashMap<>();
-    if (!ids.isEmpty()) {
-      GoodDAO dao = new GoodDAO();
-      List<GoodDTO> goods = dao.findByIds(ids);
-      for (GoodDTO good : goods) {
-        goodsMap.put(good.getId(), good);
-      }
-    }
-
-    List<CartItemViewDTO> viewItems = new ArrayList<>();
-    int total = 0;
-    for (CartItemDTO item : cart) {
-      GoodDTO good = goodsMap.get(item.getGoodId());
-      if (good == null) {
-        continue;
-      }
-      int subtotal = good.getPrice() * item.getQuantity();
-      total += subtotal;
-      viewItems.add(new CartItemViewDTO(good, item.getQuantity(), subtotal));
-    }
-
-    Object error = session.getAttribute("cartError");
-    if (error != null) {
-      req.setAttribute("cartError", error);
-      session.removeAttribute("cartError");
-    }
-
-    req.setAttribute("items", viewItems);
-    req.setAttribute("total", total);
-
+    // TODO Ch7-4:
+    //   1. session から getCart(session) でカート（List<CartItemDTO>）を取り出す
+    //   2. カート内の goodId をまとめて GoodDAO.findByIds で引き、Map<Long, GoodDTO> を作る
+    //      （カートはセッションにIDと数量しか持っていないので、表示用の名前・価格・画像はここでDBから補完する）
+    //   3. CartItemDTO と GoodDTO を組み合わせて CartItemViewDTO のリストを作り、合計金額 total を計算する
+    //   4. session に "cartError" があれば取り出して req にセットし、セッションからは消す（Flashメッセージ的な扱い）
+    //   5. req に "items" と "total" をセットして /WEB-INF/jsp/cart.jsp に forward する
     req.getRequestDispatcher("/WEB-INF/jsp/cart.jsp").forward(req, resp);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    // HTMLフォームからPUT/DELETEを扱うため、隠しフィールドで疑似メソッドを受け取る。
+    // HTMLフォームからPUT/DELETEを扱うため、隠しフィールド _method で疑似メソッドを受け取る。
+    // _method の値で add / update / remove を振り分ける。
     String override = req.getParameter("_method");
     if ("PUT".equalsIgnoreCase(override) || "PATCH".equalsIgnoreCase(override)) {
       handleUpdate(req, resp);
@@ -82,93 +53,31 @@ public class CartViewServlet extends HttpServlet {
   }
 
   private void handleAdd(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    HttpSession session = req.getSession();
-    String goodIdParam = req.getParameter("goodId");
-    String quantityParam = req.getParameter("quantity");
-
-    // 数量と商品IDの基本バリデーションはここで統一する。
-    if (!ValidationUtil.isLong(goodIdParam) || !ValidationUtil.isPositiveInt(quantityParam, 1, 99)) {
-      session.setAttribute("cartError", "数量は1〜99で入力してください。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-
-    long goodId = Long.parseLong(goodIdParam);
-    if (!existsGood(goodId)) {
-      session.setAttribute("cartError", "不正な商品が指定されました。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-    int quantity = Integer.parseInt(quantityParam);
-
-    List<CartItemDTO> cart = getCart(session);
-    boolean updated = false;
-    for (CartItemDTO item : cart) {
-      if (item.getGoodId() == goodId) {
-        int nextQuantity = item.getQuantity() + quantity;
-        item.setQuantity(Math.min(nextQuantity, 99));
-        updated = true;
-        break;
-      }
-    }
-    if (!updated) {
-      cart.add(new CartItemDTO(goodId, quantity));
-    }
-
-    session.setAttribute(CART_SESSION_KEY, cart);
+    // TODO Ch7-4 (add):
+    //   - リクエストパラメータ goodId / quantity を取り出す
+    //   - ValidationUtil で goodId が long、quantity が 1〜99 の正整数か検証する
+    //   - 不正なら session に "cartError" をセットして /cart にリダイレクト
+    //   - existsGood(goodId) で商品の存在も確認する
+    //   - getCart(session) で取り出したリストに、同じ goodId があれば数量を加算（最大99）、
+    //     なければ新しい CartItemDTO を add する
+    //   - session に CART_SESSION_KEY で保存して /cart にリダイレクト
     resp.sendRedirect(req.getContextPath() + "/cart");
   }
 
   private void handleUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    HttpSession session = req.getSession();
-    String goodIdParam = req.getParameter("goodId");
-    String quantityParam = req.getParameter("quantity");
-
-    // 更新時も同じルールで数値チェックを行う。
-    if (!ValidationUtil.isLong(goodIdParam) || !ValidationUtil.isPositiveInt(quantityParam, 1, 99)) {
-      session.setAttribute("cartError", "数量は1〜99で入力してください。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-
-    long goodId = Long.parseLong(goodIdParam);
-    if (!existsGood(goodId)) {
-      session.setAttribute("cartError", "不正な商品が指定されました。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-    int quantity = Integer.parseInt(quantityParam);
-
-    List<CartItemDTO> cart = getCart(session);
-    for (CartItemDTO item : cart) {
-      if (item.getGoodId() == goodId) {
-        item.setQuantity(quantity);
-        break;
-      }
-    }
-    session.setAttribute(CART_SESSION_KEY, cart);
+    // TODO Ch7-4 (update):
+    //   - goodId / quantity を取り出してバリデーション（add と同じルール）
+    //   - getCart(session) のリストから一致する goodId の CartItemDTO を見つけて、数量を上書きする
+    //   - session に保存して /cart にリダイレクト
     resp.sendRedirect(req.getContextPath() + "/cart");
   }
 
   private void handleRemove(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    HttpSession session = req.getSession();
-    String goodIdParam = req.getParameter("goodId");
-
-    if (!ValidationUtil.isLong(goodIdParam)) {
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-
-    long goodId = Long.parseLong(goodIdParam);
-    if (!existsGood(goodId)) {
-      session.setAttribute("cartError", "不正な商品が指定されました。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-    List<CartItemDTO> cart = getCart(session);
-    cart.removeIf(item -> item.getGoodId() == goodId);
-    session.setAttribute(CART_SESSION_KEY, cart);
-
+    // TODO Ch7-4 (remove):
+    //   - goodId を取り出して long として妥当か検証
+    //   - existsGood(goodId) も確認する
+    //   - getCart(session) のリストから該当する CartItemDTO を removeIf で削除
+    //   - session に保存して /cart にリダイレクト
     resp.sendRedirect(req.getContextPath() + "/cart");
   }
 

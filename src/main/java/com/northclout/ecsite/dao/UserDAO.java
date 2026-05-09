@@ -36,103 +36,63 @@ public class UserDAO {
       "UPDATE users SET password_hash = ?, updated_at = NOW() WHERE id = ?";
 
   public Optional<UserDTO> findById(long id) {
-    try (Connection conn = DbConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID)) {
-      stmt.setLong(1, id);
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-          return Optional.of(mapRow(rs));
-        }
-        return Optional.empty();
-      }
-    } catch (SQLException e) {
-      throw new IllegalStateException("Failed to load user", e);
-    }
+    // TODO Ch7-5: ユーザーIDで会員情報を1件取得し Optional<UserDTO> で返す
+    //   ヒント:
+    //   1. DbConnection.getConnection() で Connection を取得 (try-with-resources で自動クローズ)
+    //   2. conn.prepareStatement(SELECT_BY_ID) で PreparedStatement を作成
+    //   3. stmt.setLong(1, id) で ? に値をバインド
+    //   4. stmt.executeQuery() で ResultSet を取得
+    //   5. rs.next() が true なら mapRow(rs) を Optional.of でラップして返す
+    //   6. レコードが無ければ Optional.empty() を返す
+    //   7. SQLException は IllegalStateException("Failed to load user", e) に変換して throw
+    //   参考: https://docs.oracle.com/javase/jp/21/docs/api/java.sql/java/sql/PreparedStatement.html
+    return Optional.empty();
   }
 
   public Optional<UserDTO> findByEmail(String email) {
-    try (Connection conn = DbConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(SELECT_BY_EMAIL)) {
-      stmt.setString(1, email);
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-          return Optional.of(mapRow(rs));
-        }
-        return Optional.empty();
-      }
-    } catch (SQLException e) {
-      throw new IllegalStateException("Failed to load user by email", e);
-    }
+    // TODO Ch7-5: メールアドレスでユーザーを検索する (ログイン認証で使用)
+    //   ヒント:
+    //   - findById とほぼ同じ流れ。SQL は SELECT_BY_EMAIL を使う
+    //   - ? には stmt.setString(1, email) で文字列をバインド
+    //   - ヒットしなければ Optional.empty() を返す (ログイン側で「ユーザー無し」を判定)
+    return Optional.empty();
   }
 
   public long insertUser(UserDTO user) {
-    try (Connection conn = DbConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
-      stmt.setString(1, user.getEmail());
-      stmt.setString(2, user.getPasswordHash());
-      stmt.setString(3, user.getLastName());
-      stmt.setString(4, user.getFirstName());
-      stmt.setString(5, user.getAddress());
-      stmt.setString(6, user.getCardNumberLast4());
-      stmt.setString(7, user.getCardBrand());
-      if (user.getCardExpMonth() == null) {
-        stmt.setNull(8, java.sql.Types.SMALLINT);
-      } else {
-        stmt.setInt(8, user.getCardExpMonth());
-      }
-      if (user.getCardExpYear() == null) {
-        stmt.setNull(9, java.sql.Types.SMALLINT);
-      } else {
-        stmt.setInt(9, user.getCardExpYear());
-      }
-      stmt.setString(10, user.getCardName());
-      stmt.executeUpdate();
-      try (var rs = stmt.getGeneratedKeys()) {
-        if (rs.next()) {
-          return rs.getLong(1);
-        }
-      }
-    } catch (SQLException e) {
-      throw new IllegalStateException("Failed to insert user", e);
-    }
+    // TODO Ch7-5: 新規ユーザーを INSERT し、自動採番された ID を返す
+    //   ヒント:
+    //   1. prepareStatement の第2引数に Statement.RETURN_GENERATED_KEYS を渡すと
+    //      AUTO_INCREMENT で発行された ID を後から取得できる
+    //   2. INSERT_USER の ? に user の各フィールドを順番にバインドする
+    //      - 1: email, 2: passwordHash, 3: lastName, 4: firstName, 5: address
+    //      - 6: cardNumberLast4, 7: cardBrand
+    //      - 8: cardExpMonth (Integer なので null チェックが必要 → setNull(8, Types.SMALLINT))
+    //      - 9: cardExpYear (同上)
+    //      - 10: cardName
+    //   3. stmt.executeUpdate() で実行
+    //   4. stmt.getGeneratedKeys() で ResultSet を取り、rs.next() なら rs.getLong(1) を return
+    //   5. 失敗時は IllegalStateException("Failed to insert user", e) を throw
+    //   参考: Statement.RETURN_GENERATED_KEYS と getGeneratedKeys() の使い方
     throw new IllegalStateException("Failed to insert user");
   }
 
   public int updateUser(UserDTO user) {
-    try (Connection conn = DbConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(UPDATE_USER)) {
-      stmt.setString(1, user.getLastName());
-      stmt.setString(2, user.getFirstName());
-      stmt.setString(3, user.getAddress());
-      stmt.setString(4, user.getCardNumberLast4());
-      stmt.setString(5, user.getCardBrand());
-      if (user.getCardExpMonth() == null) {
-        stmt.setNull(6, java.sql.Types.SMALLINT);
-      } else {
-        stmt.setInt(6, user.getCardExpMonth());
-      }
-      if (user.getCardExpYear() == null) {
-        stmt.setNull(7, java.sql.Types.SMALLINT);
-      } else {
-        stmt.setInt(7, user.getCardExpYear());
-      }
-      stmt.setString(8, user.getCardName());
-      stmt.setLong(9, user.getId());
-      return stmt.executeUpdate();
-    } catch (SQLException e) {
-      throw new IllegalStateException("Failed to update user", e);
-    }
+    // TODO Ch7-5: マイページから会員情報を更新する
+    //   ヒント:
+    //   - UPDATE_USER の ? に lastName, firstName, address, cardNumberLast4, cardBrand,
+    //     cardExpMonth, cardExpYear, cardName, id の順にバインド
+    //   - cardExpMonth / cardExpYear は Integer なので null の場合 setNull(idx, Types.SMALLINT)
+    //   - stmt.executeUpdate() の戻り値 (更新件数) をそのまま return する
+    return 0;
   }
 
   public int updatePassword(long userId, String passwordHash) {
-    try (Connection conn = DbConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(UPDATE_PASSWORD)) {
-      stmt.setString(1, passwordHash);
-      stmt.setLong(2, userId);
-      return stmt.executeUpdate();
-    } catch (SQLException e) {
-      throw new IllegalStateException("Failed to update password", e);
-    }
+    // TODO Ch7-5: パスワード変更時に password_hash カラムだけを更新する
+    //   ヒント:
+    //   - UPDATE_PASSWORD を使う
+    //   - ? は 1: passwordHash, 2: userId
+    //   - 戻り値は executeUpdate() の更新件数 (通常 1)
+    return 0;
   }
 
   private UserDTO mapRow(ResultSet rs) throws SQLException {

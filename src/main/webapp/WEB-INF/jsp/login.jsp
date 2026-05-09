@@ -16,10 +16,18 @@
     <form class="card" action="${pageContext.request.contextPath}/login" method="post">
       <div class="title">ログイン</div>
 
-      <c:if test="${not empty loginError}">
-        <!-- loginError は LoginServlet が認証失敗時に設定する。 -->
-        <div class="error"><c:out value="${loginError}" /></div>
-      </c:if>
+      <!--
+        TODO Ch7-5: ログインエラーメッセージを表示
+        ヒント:
+          - LoginServlet が認証失敗時に req.setAttribute("loginError", "...") でメッセージを設定する
+          - JSTL の <c:if test="${not empty loginError}"> でメッセージが存在するときだけ表示
+          - 値の出力には XSS 対策として <c:out value="${loginError}" /> を使う
+          - 表示用の class は "error" を使うとスタイルが当たる (assets/css/auth.css)
+        例:
+          <c:if test="${not empty loginError}">
+            <div class="error"><c:out value="${loginError}" /></div>
+          </c:if>
+      -->
 
       <div class="field">
         <label class="label" for="email">メールアドレス</label>

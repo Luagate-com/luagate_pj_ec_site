@@ -17,22 +17,13 @@ import java.util.Optional;
 public class GoodDetailServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String idParam = req.getParameter("id");
-    if (!ValidationUtil.isLong(idParam)) {
-      resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-
-    long id = Long.parseLong(idParam);
-    GoodDAO dao = new GoodDAO();
-    Optional<GoodDTO> goodOpt = dao.findById(id);
-
-    if (goodOpt.isEmpty()) {
-      resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-
-    req.setAttribute("good", goodOpt.get());
-    req.getRequestDispatcher("/WEB-INF/jsp/good_detail.jsp").forward(req, resp);
+    // TODO Ch7-3: 商品詳細画面の表示処理
+    //  ヒント:
+    //   1. req.getParameter("id") で id 文字列を取得し、ValidationUtil.isLong で数値かチェックする
+    //   2. Long.parseLong で long 化し、GoodDAO.findById で Optional<GoodDTO> を取得する
+    //   3. Optional が空なら 404、値があれば req.setAttribute("good", ...) して
+    //      "/WEB-INF/jsp/good_detail.jsp" に forward する
+    //   4. 見つからない場合のサンプルとして 404 だけ書いてある（下記）。完成時はこの 1 行を置き換える
+    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
   }
 }

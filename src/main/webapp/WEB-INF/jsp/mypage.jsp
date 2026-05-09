@@ -15,62 +15,70 @@
   <main class="container">
     <div class="title">マイページ</div>
 
-    <c:if test="${not empty mypageError}">
-      <!-- mypageError は MypageServlet がセッション経由で渡す。 -->
-      <div class="error"><c:out value="${mypageError}" /></div>
-    </c:if>
+    <%-- TODO Ch7-7: mypageError がセットされていればエラーメッセージとして表示する
+         ヒント: <c:if test="${not empty mypageError}"> ... <c:out value="${mypageError}" /> ... </c:if> --%>
 
     <div class="columns">
       <div class="card" style="flex:1;">
         <div class="card-head">会員情報</div>
         <div class="card-body">
-          <!-- user は MypageServlet が session.userId から取得して設定する。 -->
+          <%-- user は MypageServlet が session.userId から取得して setAttribute で渡す。 --%>
           <div class="row">
             <div class="label">氏名</div>
-            <div><c:out value="${user.lastName}" /> <c:out value="${user.firstName}" /></div>
+            <%-- TODO Ch7-7: user.lastName / user.firstName を表示する --%>
+            <div></div>
           </div>
           <div class="row">
             <div class="label">メール</div>
-            <div><c:out value="${user.email}" /></div>
+            <%-- TODO Ch7-7: user.email を表示する --%>
+            <div></div>
           </div>
           <div class="row">
             <div class="label">住所</div>
-            <div><c:out value="${user.address}" /></div>
+            <%-- TODO Ch7-7: user.address を表示する --%>
+            <div></div>
           </div>
 
           <form class="edit-form" action="${pageContext.request.contextPath}/mypage" method="post">
-            <!-- _method=PUT で更新リクエストとして扱う。 -->
+            <%-- _method=PUT で更新リクエストとして扱う。 --%>
             <input type="hidden" name="_method" value="PUT">
             <div class="field">
               <label class="label">氏名</label>
               <div class="name-fields">
-                <input class="input" type="text" name="lastName" value="${user.lastName}" placeholder="姓">
-                <input class="input" type="text" name="firstName" value="${user.firstName}" placeholder="名">
+                <%-- TODO Ch7-7: user の各フィールドを value 属性で表示する（lastName / firstName） --%>
+                <input class="input" type="text" name="lastName" value="" placeholder="姓">
+                <input class="input" type="text" name="firstName" value="" placeholder="名">
               </div>
             </div>
             <div class="field">
               <label class="label">住所</label>
-              <input class="input" type="text" name="address" value="${user.address}" placeholder="住所">
+              <%-- TODO Ch7-7: user.address を value にセット --%>
+              <input class="input" type="text" name="address" value="" placeholder="住所">
             </div>
             <div class="field">
               <label class="label">カード名義</label>
-              <input class="input" type="text" name="cardName" value="${user.cardName}" placeholder="名義">
+              <%-- TODO Ch7-7: user.cardName を value にセット --%>
+              <input class="input" type="text" name="cardName" value="" placeholder="名義">
             </div>
             <div class="field">
               <label class="label">カード番号（下4桁）</label>
-              <input class="input" type="text" name="cardLast4" value="${user.cardNumberLast4}" placeholder="0000">
+              <%-- TODO Ch7-7: user.cardNumberLast4 を value にセット --%>
+              <input class="input" type="text" name="cardLast4" value="" placeholder="0000">
             </div>
             <div class="field">
               <label class="label">有効期限（月）</label>
-              <input class="input" type="text" name="cardExpMonth" value="${user.cardExpMonth}" placeholder="12">
+              <%-- TODO Ch7-7: user.cardExpMonth を value にセット --%>
+              <input class="input" type="text" name="cardExpMonth" value="" placeholder="12">
             </div>
             <div class="field">
               <label class="label">有効期限（年）</label>
-              <input class="input" type="text" name="cardExpYear" value="${user.cardExpYear}" placeholder="30">
+              <%-- TODO Ch7-7: user.cardExpYear を value にセット --%>
+              <input class="input" type="text" name="cardExpYear" value="" placeholder="30">
             </div>
             <div class="field">
               <label class="label">カードブランド</label>
-              <input class="input" type="text" name="cardBrand" value="${user.cardBrand}" placeholder="VISA">
+              <%-- TODO Ch7-7: user.cardBrand を value にセット --%>
+              <input class="input" type="text" name="cardBrand" value="" placeholder="VISA">
             </div>
             <div class="actions">
               <button class="button-secondary" type="submit">更新</button>

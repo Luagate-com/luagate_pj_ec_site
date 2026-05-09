@@ -18,6 +18,7 @@ import java.util.Optional;
 public class MypageServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    // ログインガード（このブロックはそのまま残す）
     HttpSession session = req.getSession();
     Object userId = session.getAttribute("userId");
     if (userId == null) {
@@ -25,71 +26,32 @@ public class MypageServlet extends HttpServlet {
       return;
     }
 
-    UserDAO dao = new UserDAO();
-    Optional<UserDTO> user = dao.findById((Long) userId);
-    user.ifPresent(value -> req.setAttribute("user", value));
-
-    Object error = session.getAttribute("mypageError");
-    if (error != null) {
-      req.setAttribute("mypageError", error);
-      session.removeAttribute("mypageError");
-    }
-
-    req.getRequestDispatcher("/WEB-INF/jsp/mypage.jsp").forward(req, resp);
+    // TODO Ch7-7: マイページ画面の表示処理を実装する
+    // ヒント:
+    //   1. UserDAO の findById((Long) userId) で Optional<UserDTO> を取得する
+    //   2. user が存在すれば req.setAttribute("user", value) で JSP に渡す
+    //      （JSP 側で ${user.lastName} ${user.email} などとして表示される）
+    //   3. session に "mypageError" が残っていれば req に詰め替えて
+    //      session からは removeAttribute で消す（PRG パターンの後始末）
+    //   4. 最後に /WEB-INF/jsp/mypage.jsp へ forward する
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String override = req.getParameter("_method");
-    if (override == null || !"PUT".equalsIgnoreCase(override)) {
-      resp.sendRedirect(req.getContextPath() + "/mypage");
-      return;
-    }
-
-    HttpSession session = req.getSession();
-    Object userId = session.getAttribute("userId");
-    if (userId == null) {
-      resp.sendRedirect(req.getContextPath() + "/login");
-      return;
-    }
-
-    String lastName = req.getParameter("lastName");
-    String firstName = req.getParameter("firstName");
-    String address = req.getParameter("address");
-    String cardBrand = req.getParameter("cardBrand");
-    String cardLast4 = req.getParameter("cardLast4");
-    String cardExpMonth = req.getParameter("cardExpMonth");
-    String cardExpYear = req.getParameter("cardExpYear");
-    String cardName = req.getParameter("cardName");
-
-    UserDTO user = new UserDTO();
-    user.setId((Long) userId);
-    user.setLastName(normalizeToEmpty(lastName));
-    user.setFirstName(normalizeToEmpty(firstName));
-    user.setAddress(address);
-    user.setCardBrand(blankToNull(cardBrand));
-    user.setCardNumberLast4(blankToNull(cardLast4));
-    user.setCardName(blankToNull(cardName));
-
-    if (ValidationUtil.isPositiveInt(cardExpMonth, 1, 12)) {
-      user.setCardExpMonth(Integer.parseInt(cardExpMonth));
-    }
-    if (ValidationUtil.isPositiveInt(cardExpYear, 0, 99)) {
-      int yy = Integer.parseInt(cardExpYear);
-      user.setCardExpYear(2000 + yy);
-    }
-
-    UserDAO dao = new UserDAO();
-    dao.updateUser(user);
-
-    resp.sendRedirect(req.getContextPath() + "/mypage");
-  }
-
-  private String blankToNull(String value) {
-    return ValidationUtil.isBlank(value) ? null : value.trim();
-  }
-
-  private String normalizeToEmpty(String value) {
-    return ValidationUtil.isBlank(value) ? "" : value.trim();
+    // TODO Ch7-7: 会員情報の更新処理を実装する
+    // ヒント:
+    //   1. hidden の _method パラメータを取り、"PUT" でなければ /mypage に redirect して return
+    //      （HTML フォームは GET/POST しか送れないので、擬似的に PUT を表現している）
+    //   2. ログインガード（session.getAttribute("userId") == null なら /login へ）
+    //   3. req.getParameter で lastName / firstName / address / cardBrand /
+    //      cardLast4 / cardExpMonth / cardExpYear / cardName を受け取る
+    //   4. UserDTO を組み立てる
+    //      - id には (Long) userId をセット
+    //      - 氏名は空文字に正規化（null や " " は ""）
+    //      - カード関連は空ならば null にする
+    //      - cardExpMonth / cardExpYear は ValidationUtil.isPositiveInt で範囲チェックしてから
+    //        Integer.parseInt して setCardExpMonth / setCardExpYear（年は 2000 + yy）
+    //   5. UserDAO.updateUser(user) で更新
+    //   6. PRG パターンで /mypage に redirect する
   }
 }

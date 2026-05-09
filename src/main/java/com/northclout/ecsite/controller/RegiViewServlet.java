@@ -22,65 +22,46 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * /regi - レジ画面（注文確認画面）の表示用サーブレット。
+ *
+ * Ch7-6 の入口。注文確定ボタンを押す前の「最終確認画面」を作る役割。
+ * 実際の注文確定（DB書き込み）は OrderCompleteServlet#doPost が担当する。
+ */
 @WebServlet("/regi")
 public class RegiViewServlet extends HttpServlet {
   private static final String CART_SESSION_KEY = "cart";
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    HttpSession session = req.getSession();
-    Object userId = session.getAttribute("userId");
-    if (userId == null) {
-      // 未ログインの場合はログイン画面へ戻す。
-      resp.sendRedirect(req.getContextPath() + "/login");
-      return;
-    }
+    // TODO Ch7-6: レジ画面を表示するための前処理を実装する。
+    //
+    // ▼ やること（順番通り）
+    //   1. セッションを取り出す: HttpSession session = req.getSession();
+    //   2. ログインチェック
+    //        - session.getAttribute("userId") が null なら未ログイン
+    //        - その場合は resp.sendRedirect(req.getContextPath() + "/login") で /login に飛ばして return
+    //   3. カート取得: List<CartItemDTO> cart = getCart(session);
+    //        - 空なら "cartError" メッセージを session に積んで /cart へ sendRedirect → return
+    //   4. cart から goodId のリストを作り、GoodDAO.findByIds(ids) で商品マスタを引く
+    //        - id をキーに引ける Map<Long, GoodDTO> goodsMap を作っておくと後段が楽
+    //   5. cart をループして CartItemViewDTO のリストを作りつつ合計金額 total を集計
+    //        - subtotal = good.getPrice() * item.getQuantity()
+    //        - new CartItemViewDTO(good, item.getQuantity(), subtotal)
+    //   6. UserDAO.findById((Long) userId) でユーザー情報を取得し req.setAttribute("user", value)
+    //   7. session に "regiError"（前回の確定失敗メッセージ）が残っていたら
+    //        - req.setAttribute("regiError", ...) に詰め替えて
+    //        - session.removeAttribute("regiError") で消す（PRG的に1回限りの表示）
+    //   8. req.setAttribute("items", viewItems) と req.setAttribute("total", total)
+    //   9. req.getRequestDispatcher("/WEB-INF/jsp/regi.jsp").forward(req, resp);
+    //
+    // ▼ ポイント
+    //   - JSPで参照している EL: ${user.*} ${items} ${total} ${regiError} ${item.good.*} ${item.quantity}
+    //     これらが全部 setAttribute されていれば画面が出る。
+    //   - "userId" は Long で session に入っている前提。キャストは (Long) userId。
 
-    List<CartItemDTO> cart = getCart(session);
-    if (cart.isEmpty()) {
-      // カートが空の場合はカート画面に戻す。
-      session.setAttribute("cartError", "カートに商品がありません。");
-      resp.sendRedirect(req.getContextPath() + "/cart");
-      return;
-    }
-
-    List<Long> ids = cart.stream()
-        .map(CartItemDTO::getGoodId)
-        .collect(Collectors.toList());
-
-    // 画面描画しやすいように、商品IDをキーに引けるMapへ変換しておく。
-    Map<Long, GoodDTO> goodsMap = new HashMap<>();
-    GoodDAO goodDAO = new GoodDAO();
-    for (GoodDTO good : goodDAO.findByIds(ids)) {
-      goodsMap.put(good.getId(), good);
-    }
-
-    List<CartItemViewDTO> viewItems = new ArrayList<>();
-    int total = 0;
-    for (CartItemDTO item : cart) {
-      GoodDTO good = goodsMap.get(item.getGoodId());
-      if (good == null) {
-        continue;
-      }
-      int subtotal = good.getPrice() * item.getQuantity();
-      total += subtotal;
-      viewItems.add(new CartItemViewDTO(good, item.getQuantity(), subtotal));
-    }
-
-    UserDAO userDAO = new UserDAO();
-    Optional<UserDTO> user = userDAO.findById((Long) userId);
-    user.ifPresent(value -> req.setAttribute("user", value));
-
-    Object regiError = session.getAttribute("regiError");
-    if (regiError != null) {
-      req.setAttribute("regiError", regiError);
-      session.removeAttribute("regiError");
-    }
-
-    req.setAttribute("items", viewItems);
-    req.setAttribute("total", total);
-
-    req.getRequestDispatcher("/WEB-INF/jsp/regi.jsp").forward(req, resp);
+    // 暫定: 何もせず空画面を出すと NullPointerException になるので、エラー表示にしておく。
+    resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "RegiViewServlet#doGet is not implemented yet (Ch7-6)");
   }
 
   @SuppressWarnings("unchecked")

@@ -28,44 +28,13 @@
             <div class="item-card">カートに商品がありません。</div>
           </c:when>
           <c:otherwise>
-            <!-- items は CartViewServlet が組み立てた表示用DTOのリスト。 -->
-            <c:forEach var="item" items="${items}">
-              <div class="item-card">
-                <div class="item-image">
-                  <c:choose>
-                    <c:when test="${not empty item.good.imageUrl}">
-                      <img src="${pageContext.request.contextPath}${item.good.imageUrl}" alt="">
-                    </c:when>
-                    <c:otherwise>
-                      <img src="${pageContext.request.contextPath}/assets/images/goods/placeholder.svg" alt="">
-                    </c:otherwise>
-                  </c:choose>
-                </div>
-                <div class="item-info">
-                  <div class="item-name"><c:out value="${item.good.name}" /></div>
-                  <div class="item-price">¥<fmt:formatNumber value="${item.good.price}" pattern="#,##0" /></div>
-                  <div class="item-subtotal">小計 ¥<fmt:formatNumber value="${item.subtotal}" pattern="#,##0" /></div>
-                </div>
-                <div class="counter">
-                  <!-- _method=PUT を使い、CartViewServlet で数量更新として扱う。 -->
-                  <form class="counter-form" action="${pageContext.request.contextPath}/cart" method="post">
-                    <input type="hidden" name="_method" value="PUT">
-                    <input type="hidden" name="goodId" value="${item.good.id}">
-                    <button type="button" data-action="minus" aria-label="減らす">-</button>
-                    <input class="count" type="number" name="quantity" value="${item.quantity}" min="1" max="99">
-                    <button type="button" data-action="plus" aria-label="増やす">+</button>
-                  </form>
-                </div>
-                <div class="actions">
-                  <!-- _method=DELETE を使い、CartViewServlet で削除として扱う。 -->
-                  <form action="${pageContext.request.contextPath}/cart" method="post">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="goodId" value="${item.good.id}">
-                    <button class="action-link" type="submit">削除</button>
-                  </form>
-                </div>
-              </div>
-            </c:forEach>
+            <!-- TODO Ch7-4: items を <c:forEach var="item" items="${items}"> で展開する -->
+            <!--   ループの中で表示すべき項目:                                          -->
+            <!--     - 商品画像 (item.good.imageUrl が空ならプレースホルダー)            -->
+            <!--     - 商品名 (item.good.name)                                          -->
+            <!--     - 単価 (item.good.price) と 小計 (item.subtotal) を fmt:formatNumber で整形 -->
+            <!--     - 数量変更フォーム: _method=PUT, goodId, quantity を持つ POST フォーム  -->
+            <!--     - 削除フォーム:    _method=DELETE, goodId を持つ POST フォーム         -->
           </c:otherwise>
         </c:choose>
       </div>
@@ -75,8 +44,8 @@
         <div class="summary-body">
           <div class="summary-row">
             <span>小計</span>
-            <!-- total は CartViewServlet が算出した合計金額。 -->
-            <span>¥<fmt:formatNumber value="${total}" pattern="#,##0" /></span>
+            <!-- TODO Ch7-4: CartViewServlet が req にセットした total を fmt:formatNumber で整形して表示 -->
+            <span>¥0</span>
           </div>
           <div class="summary-row">
             <span>送料</span>
@@ -84,7 +53,8 @@
           </div>
           <div class="summary-row">
             <span>合計</span>
-            <span>¥<fmt:formatNumber value="${total}" pattern="#,##0" /></span>
+            <!-- TODO Ch7-4: 合計欄も同じ total を表示する（送料は今回の章では一律0円扱い） -->
+            <span>¥0</span>
           </div>
           <div class="summary-note">確定後はキャンセルできません。</div>
         </div>

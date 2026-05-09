@@ -24,35 +24,41 @@ public class LoginServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String email = req.getParameter("email");
-    String password = req.getParameter("password");
+    // TODO Ch7-5: ログイン処理を実装する
+    //
+    //   実装の流れ:
+    //   1) フォームの入力値を取得
+    //      - req.getParameter("email") / req.getParameter("password")
+    //
+    //   2) 入力バリデーション
+    //      - ValidationUtil.isEmail(email) が false、または ValidationUtil.isBlank(password) が true なら
+    //        エラーとして扱う
+    //      - エラー時は req.setAttribute("loginError", "メールアドレスまたはパスワードが正しくありません。")
+    //        を設定し、/WEB-INF/jsp/login.jsp に forward して return
+    //      - セキュリティ観点から、メール未登録 / パスワード不一致 / 形式不正は全て
+    //        同じメッセージにする (ユーザー存在の有無を漏らさないため)
+    //
+    //   3) DB からユーザーを検索
+    //      - new UserDAO().findByEmail(email) で Optional<UserDTO> を取得
+    //      - 見つからない (isEmpty()) 場合は 2) と同じエラー処理
+    //
+    //   4) パスワード検証
+    //      - PasswordUtil.hash(password) で入力値をハッシュ化
+    //      - DB の user.getPasswordHash() と equals で比較
+    //      - 不一致なら 2) と同じエラー処理
+    //
+    //   5) ログイン成功
+    //      - HttpSession session = req.getSession();
+    //      - session.setAttribute("userId", user.getId()); でセッションに ID を保持
+    //      - resp.sendRedirect(req.getContextPath() + "/goods"); で商品一覧へ
+    //
+    //   参考:
+    //   - HttpServletRequest#getParameter
+    //   - RequestDispatcher#forward と HttpServletResponse#sendRedirect の違い
+    //   - HttpSession でログイン状態を表現する一般的なパターン
 
-    // ログインの最低限バリデーション（形式と必須）を実施する。
-    if (!ValidationUtil.isEmail(email) || ValidationUtil.isBlank(password)) {
-      req.setAttribute("loginError", "メールアドレスまたはパスワードが正しくありません。");
-      req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
-      return;
-    }
-
-    UserDAO dao = new UserDAO();
-    Optional<UserDTO> userOpt = dao.findByEmail(email);
-    if (userOpt.isEmpty()) {
-      req.setAttribute("loginError", "メールアドレスまたはパスワードが正しくありません。");
-      req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
-      return;
-    }
-
-    UserDTO user = userOpt.get();
-    String hashed = PasswordUtil.hash(password);
-    if (!hashed.equals(user.getPasswordHash())) {
-      req.setAttribute("loginError", "メールアドレスまたはパスワードが正しくありません。");
-      req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
-      return;
-    }
-
-    HttpSession session = req.getSession();
-    // 認証済みユーザーIDをセッションに保持してログイン状態を表現する。
-    session.setAttribute("userId", user.getId());
-    resp.sendRedirect(req.getContextPath() + "/goods");
+    // 仮実装: 受講生が実装するまでログインは常に失敗扱いにする
+    req.setAttribute("loginError", "ログイン処理は未実装です (Ch7-5)");
+    req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
   }
 }

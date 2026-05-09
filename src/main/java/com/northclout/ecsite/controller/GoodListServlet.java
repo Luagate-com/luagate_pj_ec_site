@@ -25,21 +25,13 @@ public class GoodListServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String category = req.getParameter("category");
-    GoodDAO dao = new GoodDAO();
-    List<GoodDTO> goods;
-
-    if (category != null && !category.isBlank() && CATEGORIES.contains(category)) {
-      goods = dao.findByCategory(category);
-      req.setAttribute("selectedCategory", category);
-    } else {
-      goods = dao.findAll();
-      req.setAttribute("selectedCategory", "");
-    }
-
-    req.setAttribute("categories", CATEGORIES);
-    req.setAttribute("goods", goods);
-    req.setAttribute("totalCount", goods.size());
+    // TODO Ch7-3: 商品一覧画面の表示処理
+    //  ヒント:
+    //   1. req.getParameter("category") でカテゴリ絞り込みパラメータを取得する
+    //   2. GoodDAO を new して、category が CATEGORIES に含まれていれば findByCategory、
+    //      そうでなければ findAll で List<GoodDTO> を取得する
+    //   3. req.setAttribute("categories", CATEGORIES) / "goods" / "selectedCategory" / "totalCount" を JSP に渡す
+    //   4. 最後に good_list.jsp に forward する（forward 呼び出しは既に下に書いてある）
 
     req.getRequestDispatcher("/WEB-INF/jsp/good_list.jsp").forward(req, resp);
   }

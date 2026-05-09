@@ -16,10 +16,13 @@
     <form class="card" action="${pageContext.request.contextPath}/mypage/password" method="post">
       <div class="title">パスワード変更</div>
 
-      <c:if test="${not empty passwordError}">
-        <!-- passwordError は MypagePasswordServlet がセッション経由で渡す。 -->
-        <div class="error"><c:out value="${passwordError}" /></div>
-      </c:if>
+      <%-- TODO Ch7-7: passwordError がセットされていればエラーメッセージとして表示する
+           ヒント:
+             <c:if test="${not empty passwordError}">
+               <div class="error"><c:out value="${passwordError}" /></div>
+             </c:if>
+           passwordError は MypagePasswordServlet が session 経由で渡し、
+           doGet 側で req.setAttribute に詰め替えている。 --%>
 
       <div class="field">
         <label class="label" for="currentPassword">現在のパスワード</label>
