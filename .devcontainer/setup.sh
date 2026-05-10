@@ -35,6 +35,8 @@ if [ ! -d "$TOMCAT_DIR" ]; then
   tar -xzf "$TOMCAT_TARBALL"
   rm -f "$TOMCAT_TARBALL"
   chmod +x "$TOMCAT_DIR/bin/"*.sh
+  # catalina コマンドをどのターミナルからも使えるようにシンボリックリンクを作成
+  sudo ln -sf "$TOMCAT_DIR/bin/catalina.sh" /usr/local/bin/catalina
   echo "==> Tomcat 展開完了: $TOMCAT_DIR"
 else
   echo "==> Tomcat は既に存在: $TOMCAT_DIR"
