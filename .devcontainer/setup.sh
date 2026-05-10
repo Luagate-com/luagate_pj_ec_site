@@ -14,6 +14,9 @@ TOMCAT_TARBALL="apache-tomcat-${TOMCAT_VERSION}.tar.gz"
 TOMCAT_URL_MIRROR="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
 TOMCAT_URL_ARCHIVE="https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
 
+echo "==> PostgreSQL クライアント (psql) をインストール"
+sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+
 echo "==> Java / Maven バージョン確認"
 java -version
 mvn -version
