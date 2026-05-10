@@ -1,6 +1,10 @@
 package com.northclout.ecsite.dto;
 
-public class CartItemDTO {
+import java.io.Serializable;
+
+public class CartItemDTO implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   private long goodId;
   private int quantity;
 
