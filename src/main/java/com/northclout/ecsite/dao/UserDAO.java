@@ -77,7 +77,7 @@ public class UserDAO {
   }
 
   public int updateUser(UserDTO user) {
-    // TODO Ch7-5: マイページから会員情報を更新する
+    // TODO Ch7-7: マイページから会員情報を更新する (Ch7-5 段階では空のままにしておく)
     //   ヒント:
     //   - UPDATE_USER の ? に lastName, firstName, address, cardNumberLast4, cardBrand,
     //     cardExpMonth, cardExpYear, cardName, id の順にバインド
@@ -87,7 +87,7 @@ public class UserDAO {
   }
 
   public int updatePassword(long userId, String passwordHash) {
-    // TODO Ch7-5: パスワード変更時に password_hash カラムだけを更新する
+    // TODO Ch7-7: パスワード変更時に password_hash カラムだけを更新する (Ch7-5 段階では空のままにしておく)
     //   ヒント:
     //   - UPDATE_PASSWORD を使う
     //   - ? は 1: passwordHash, 2: userId
