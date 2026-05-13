@@ -14,6 +14,9 @@ TOMCAT_TARBALL="apache-tomcat-${TOMCAT_VERSION}.tar.gz"
 TOMCAT_URL_MIRROR="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
 TOMCAT_URL_ARCHIVE="https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TARBALL}"
 
+echo "==> PostgreSQL クライアント (psql) をインストール"
+sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+
 echo "==> Java / Maven バージョン確認"
 java -version
 mvn -version
@@ -32,6 +35,8 @@ if [ ! -d "$TOMCAT_DIR" ]; then
   tar -xzf "$TOMCAT_TARBALL"
   rm -f "$TOMCAT_TARBALL"
   chmod +x "$TOMCAT_DIR/bin/"*.sh
+  # catalina コマンドをどのターミナルからも使えるようにシンボリックリンクを作成
+  sudo ln -sf "$TOMCAT_DIR/bin/catalina.sh" /usr/local/bin/catalina
   echo "==> Tomcat 展開完了: $TOMCAT_DIR"
 else
   echo "==> Tomcat は既に存在: $TOMCAT_DIR"
