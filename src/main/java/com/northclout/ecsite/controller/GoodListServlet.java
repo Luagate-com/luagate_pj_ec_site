@@ -16,11 +16,12 @@ import java.util.List;
 @WebServlet("/goods")
 public class GoodListServlet extends HttpServlet {
   private static final List<String> CATEGORIES = Arrays.asList(
+      "インテリア",
       "キッチン雑貨",
       "ファブリック",
-      "食器",
-      "インテリア",
-      "収納・小物"
+      "文具",
+      "ファッション",
+      "食器"
   );
 
   @Override
